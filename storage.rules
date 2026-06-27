@@ -1,0 +1,61 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAdmin() {
+      return request.auth != null
+        && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function isTaskMember(taskId) {
+      let task = firestore.get(/databases/(default)/documents/tasks/$(taskId)).data;
+      return request.auth != null && (
+        task.clientUid == request.auth.uid
+        || task.composerId == request.auth.uid
+        || task.hummingArtistId == request.auth.uid
+      );
+    }
+
+    // Allowed image MIME types for public website images
+    function isImage() {
+      return request.resource.contentType.matches('image/(jpeg|jpg|png|webp|gif|svg\\+xml)');
+    }
+
+    // Allowed file types for task/project uploads
+    function isAllowedTaskFile() {
+      return request.resource.contentType.matches(
+        '(audio/(mpeg|wav|aac|ogg|flac|x-wav)|video/(mp4|quicktime|x-msvideo)|'
+        + 'image/(jpeg|jpg|png|webp)|application/pdf|'
+        + 'application/zip|application/x-zip-compressed)'
+      );
+    }
+
+    // Public website images — admin writes (max 10MB, images only), anyone reads
+    match /images/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin()
+        && request.resource.size <= 10 * 1024 * 1024
+        && isImage();
+    }
+
+    // Finance receipts — admin only (max 20MB)
+    match /receipts/{fileName} {
+      allow read, write: if isAdmin()
+        && request.resource.size <= 20 * 1024 * 1024;
+    }
+
+    // Task/project files — task members or admin (max 200MB, allowed types only)
+    match /tasks/{taskId}/{allPaths=**} {
+      allow read: if isAdmin() || isTaskMember(taskId);
+      allow write: if (isAdmin() || isTaskMember(taskId))
+        && request.resource.size <= 200 * 1024 * 1024
+        && isAllowedTaskFile();
+    }
+
+    // Deny everything else
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

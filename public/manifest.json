@@ -1,0 +1,23 @@
+{
+  "name": "Tanvir Studio",
+  "short_name": "Tanvir Studio",
+  "description": "Professional audio production, mixing, mastering, video editing and software solutions.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#d9ad62",
+  "orientation": "portrait-primary",
+  "lang": "en-GB",
+  "icons": [
+    { "src": "/Logo.jpg", "sizes": "192x192", "type": "image/jpeg", "purpose": "any" },
+    { "src": "/Logo.jpg", "sizes": "512x512", "type": "image/jpeg", "purpose": "any" },
+    { "src": "/Logo.jpg", "sizes": "512x512", "type": "image/jpeg", "purpose": "maskable" }
+  ],
+  "categories": ["music", "business"],
+  "shortcuts": [
+    { "name": "Services",  "url": "/services",  "description": "Our studio services" },
+    { "name": "Portfolio", "url": "/portfolio", "description": "Work portfolio" },
+    { "name": "Contact",   "url": "/contact",   "description": "Get in touch" }
+  ]
+}

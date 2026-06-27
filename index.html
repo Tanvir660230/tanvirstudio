@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- ── Content Security Policy ── -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://accounts.google.com https://apis.google.com https://www.googletagmanager.com https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://firebasestorage.googleapis.com https://lh3.googleusercontent.com; connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://accounts.google.com wss://*.firebaseio.com https://firebase.googleapis.com https://www.googleapis.com https://firebaseinstallations.googleapis.com https://www.google.com https://www.google-analytics.com; frame-src 'self' https://accounts.google.com;" />
+
+    <!-- ── Skip to content (accessibility) ── -->
+    <style>
+      #skip-to-content {
+        position: absolute; top: -100px; left: 16px; z-index: 9999;
+        background: #d9ad62; color: #000; font-weight: 700; padding: 12px 20px;
+        border-radius: 8px; text-decoration: none; font-size: 14px;
+        transition: top 0.2s;
+      }
+      #skip-to-content:focus { top: 16px; }
+    </style>
+
+    <!-- ── Performance: preconnect to key origins ── -->
+    <link rel="preconnect" href="https://firestore.googleapis.com" />
+    <link rel="preconnect" href="https://firebase.googleapis.com" />
+    <link rel="preconnect" href="https://identitytoolkit.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+    <!-- ── Favicon / Tab Icon ── -->
+    <link rel="icon" type="image/jpeg" href="/Logo.jpg" sizes="32x32" />
+    <link rel="icon" type="image/jpeg" href="/Logo.jpg" sizes="64x64" />
+    <link rel="icon" type="image/jpeg" href="/Logo.jpg" sizes="192x192" />
+    <link rel="shortcut icon" href="/Logo.jpg" />
+
+    <!-- ── iOS / Apple ── -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/Logo.jpg" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Tanvir Studio" />
+
+    <!-- ── Android / PWA ── -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Tanvir Studio" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- ── Windows ── -->
+    <meta name="msapplication-TileImage" content="/Logo.jpg" />
+    <meta name="msapplication-TileColor" content="#d9ad62" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#d9ad62" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)" />
+
+    <title>Tanvir Studio - Where Creativity speaks</title>
+    <meta name="description" content="Tanvir Studio provides professional audio production, mixing, mastering, and sound design with emotion, clarity & industry-level sound. Specialising in Nasheeds and vocal music." />
+    <meta name="keywords" content="audio production, music composition, nasheed production, vocal processing, mastering, mixing, cinematic sound design, Bangladesh" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Tanvir Studio" />
+
+    <!-- ── Open Graph ── -->
+    <meta property="og:title" content="Tanvir Studio | Premium Audio Production" />
+    <meta property="og:description" content="Professional audio production with emotion, clarity & industry-level sound. Discover our premium services." />
+    <meta property="og:image" content="https://tanvir.studio/og-default.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content="Tanvir Studio — Premium Audio Production" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tanvir.studio/" />
+    <meta property="og:site_name" content="Tanvir Studio" />
+    <meta property="og:locale" content="en_GB" />
+
+    <!-- ── Twitter Card ── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Tanvir Studio | Premium Audio Production" />
+    <meta name="twitter:description" content="Professional audio production with emotion, clarity & industry-level sound." />
+    <meta name="twitter:image" content="https://tanvir.studio/og-default.jpg" />
+
+    <!-- ── JSON-LD: LocalBusiness structured data ── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Tanvir Studio",
+      "description": "Professional audio production, mixing, mastering, video editing and software solutions for Islamic content creators and musicians.",
+      "url": "https://tanvir.studio",
+      "logo": "https://tanvir.studio/Logo.jpg",
+      "image": "https://tanvir.studio/og-default.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "BD",
+        "addressRegion": "Dhaka"
+      },
+      "priceRange": "$$",
+      "openingHours": "Mo-Sa 09:00-22:00",
+      "sameAs": [
+        "https://www.facebook.com/thetanvirstudio",
+        "https://www.youtube.com/channel/UC5wO9rOce1ao87aAz3RAeiQ",
+        "https://www.instagram.com/thetanvirstudio"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Studio Services",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Audio Mixing & Mastering" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Nasheed Production" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Video Editing" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Software Development" } }
+        ]
+      }
+    }
+    </script>
+
+    <!-- ── Google Analytics 4 ── -->
+    <!-- Replace G-XXXXXXXXXX with your actual GA4 Measurement ID -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
+    </script>
+    -->
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- ── Microsoft Clarity (heatmaps & session recording) ── -->
+    <!-- Replace XXXXXXXXXX with your Clarity Project ID from clarity.microsoft.com -->
+    <!--
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "XXXXXXXXXX");
+    </script>
+    -->
+  </head>
+  <body>
+    <a id="skip-to-content" href="#main-content">Skip to main content</a>
+    <div id="root"></div>
+    <noscript>
+      <div style="padding:40px;text-align:center;font-family:system-ui,sans-serif;color:#1d1d1f">
+        <h2>JavaScript is required</h2>
+        <p>Please enable JavaScript to use the Tanvir Studio website.</p>
+        <p>Visit us directly: <a href="mailto:tanvirstudiots@gmail.com">tanvirstudiots@gmail.com</a></p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

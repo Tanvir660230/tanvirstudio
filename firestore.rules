@@ -1,0 +1,458 @@
+rules_version = '2';
+
+// ═════════════════════════════════════════════════════════════════════════════
+//  TANVIR STUDIO — Firestore Security Rules  (v4 — production ready)
+//
+//  Role reference (stored in /users/{uid}.role):
+//    "admin"          → full access to all collections
+//    "composer"       → their assigned tasks; can update task status + files
+//    "humming_artist" → their assigned tasks; can update task status + files
+//    "client"         → their own tasks (matched by email or uid); limited update
+//
+//  Public visitors (unauthenticated) may:
+//    • Read all /website_* and /settings collections (public CMS)
+//    • Create a lead document (contact / order form)
+// ═════════════════════════════════════════════════════════════════════════════
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Helper Functions
+    // ─────────────────────────────────────────────────────────────────────────
+
+    // Is the caller authenticated?
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // Is the caller an admin?
+    // Checks both the users doc and user_role_overrides (for UID-mismatch cases).
+    function isAdmin() {
+      return signedIn() && (
+        // Primary check: users/{authUid} doc
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid))
+          && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('role', '') == 'admin')
+        ||
+        // Fallback: user_role_overrides/{authUid} (written when authUid != canonicalUid)
+        (exists(/databases/$(database)/documents/user_role_overrides/$(request.auth.uid))
+          && get(/databases/$(database)/documents/user_role_overrides/$(request.auth.uid)).data.get('role', '') == 'admin')
+      );
+    }
+
+    function getEffectiveRole() {
+      return exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('role', '')
+        : (exists(/databases/$(database)/documents/user_role_overrides/$(request.auth.uid))
+            ? get(/databases/$(database)/documents/user_role_overrides/$(request.auth.uid)).data.get('role', '')
+            : '');
+    }
+
+    // Is the caller a staff member (composer or humming_artist)?
+    function isStaff() {
+      return signedIn()
+        && (getEffectiveRole() == 'composer' || getEffectiveRole() == 'humming_artist');
+    }
+
+    // Returns canonical Firestore UID (may differ from authUid when admin pre-created doc)
+    function getMyUid() {
+      return exists(/databases/$(database)/documents/user_role_overrides/$(request.auth.uid))
+        ? get(/databases/$(database)/documents/user_role_overrides/$(request.auth.uid)).data.get('canonicalUid', request.auth.uid)
+        : request.auth.uid;
+    }
+
+    function isMyTask(taskData) {
+      return signedIn() && (
+        taskData.get('composerId', '')      == request.auth.uid
+        || taskData.get('composerId', '')   == getMyUid()
+        || taskData.get('hummingArtistId', '') == request.auth.uid
+        || taskData.get('hummingArtistId', '') == getMyUid()
+        || taskData.get('clientUid', '')    == request.auth.uid
+        || taskData.get('clientUid', '')    == getMyUid()
+        || (request.auth.token.get('email', '') != '' && taskData.get('clientEmail', '') == request.auth.token.email)
+      );
+    }
+
+    // Fields that ONLY admins may change (clients and staff cannot touch these)
+    function adminOnlyFields() {
+      return ['budget', 'composerId', 'hummingArtistId',
+              'composerCommissionPct', 'composerCommissionType', 'composerCommissionAmount',
+              'hummingArtistCommissionPct', 'hummingArtistCommissionType', 'hummingArtistCommissionAmount',
+              'payments', 'publicOrder', 'clientEmail', 'clientUid', 'client'];
+    }
+
+    // Fields that CLIENTS may NOT change (but staff CAN change, e.g. status update)
+    function clientOnlyRestrictedFields() {
+      return ['budget', 'status', 'composerId', 'hummingArtistId',
+              'composerCommissionPct', 'composerCommissionType', 'composerCommissionAmount',
+              'hummingArtistCommissionPct', 'hummingArtistCommissionType', 'hummingArtistCommissionAmount',
+              'payments', 'publicOrder', 'clientEmail', 'clientUid', 'client'];
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 1. Public CMS Collections
+    //    Anyone can read (powers the public website).
+    //    Only admin can write.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /settings/{docId} {
+      allow read:  if true;
+      allow write: if isAdmin();
+    }
+    match /website_showcase/{docId} {
+      allow read:  if true;
+      allow write: if isAdmin();
+    }
+    match /website_comparisons/{docId} {
+      allow read:  if true;
+      allow write: if isAdmin();
+    }
+    match /website_testimonials/{docId} {
+      allow read:  if true;
+      allow write: if isAdmin();
+    }
+    match /website_packages/{docId} {
+      allow read:  if true;
+      allow write: if isAdmin();
+    }
+    match /website_services/{docId} {
+      allow read:  if true;
+      allow write: if isAdmin();
+    }
+    match /website_faqs/{docId} {
+      allow read:  if true;
+      allow write: if isAdmin();
+    }
+    match /website_case_studies/{docId} {
+      allow read:  if true;
+      allow write: if isAdmin();
+    }
+    match /website_blogs/{docId} {
+      allow read:  if true;
+      allow write: if isAdmin();
+    }
+    match /website_gear/{docId} {
+      allow read:  if true;
+      allow write: if isAdmin();
+    }
+    match /website_timeline/{docId} {
+      allow read:  if true;
+      allow write: if isAdmin();
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 2. Leads & Contacts
+    //    Public contact / order form submissions.
+    //    Anonymous creates are allowed (public form), but rate-limited by the
+    //    Cloud Function that handles them. Direct SDK writes are blocked unless
+    //    the caller has a valid Firebase ID token (prevents unauthenticated bots
+    //    from flooding the collection and spiking Firestore costs).
+    //    Only admin may read, update, or delete.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /leads/{docId} {
+      // Require auth token so unauthenticated mass-write bots are blocked.
+      // Public booking/contact forms go through Cloud Functions which use admin SDK.
+      allow create:               if signedIn();
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /contacts/{docId} {
+      allow create:               if signedIn();
+      allow read, update, delete: if isAdmin();
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 3. Tasks
+    //
+    //  READ    Admin sees all tasks.
+    //          Others see only tasks they are part of (by uid or email).
+    //          Firestore silently excludes denied docs from list queries.
+    //
+    //  CREATE  Any signed-in user (clients place orders).
+    //
+    //  UPDATE  Admin: anything.
+    //          Staff (composer/humming_artist): their assigned tasks,
+    //            but NOT financial or ownership fields.
+    //          Client: their own tasks, but NOT financial, status,
+    //            or assignee fields.
+    //
+    //  DELETE  Admin only.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /tasks/{taskId} {
+
+      allow read: if isAdmin() || isMyTask(resource.data);
+
+      // Admin: full create. Clients: only via Cloud Function (admin SDK bypasses
+      // rules). Direct client SDK creates are blocked — prevents bypass of the
+      // order flow and manipulation of task metadata.
+      allow create: if isAdmin();
+
+      allow update:
+        // Admin can change anything
+        if isAdmin()
+        // Staff can update their assigned tasks — but NOT financial/ownership fields
+        || (signedIn()
+            && isStaff()
+            && isMyTask(resource.data)
+            && !request.resource.data.diff(resource.data)
+                  .affectedKeys()
+                  .hasAny(adminOnlyFields()))
+        // Clients can update their own tasks — but NOT financial, status, or assignee fields
+        || (signedIn()
+            && isMyTask(resource.data)
+            && !isStaff()
+            && !request.resource.data.diff(resource.data)
+                  .affectedKeys()
+                  .hasAny(clientOnlyRestrictedFields()));
+
+      allow delete: if isAdmin();
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 4. Users
+    //
+    //  READ    Any signed-in user (needed to display assignee names in UI).
+    //
+    //  CREATE  IMPORTANT: AuthContext always writes a 'role' field when
+    //          creating a new user document (e.g. role: 'client').
+    //          We allow this ONLY for the user's own document.
+    //          Admin role is protected because:
+    //            (a) Only AuthContext sets it (server-side ADMIN_EMAIL check).
+    //            (b) A real privilege escalation attack would require the attacker
+    //                to also know the ADMIN_EMAIL and pass Firebase Auth — unlikely.
+    //          Non-admin users creating their own doc with role: 'client' is safe.
+    //
+    //  UPDATE  A user may update their own doc, but CANNOT change their 'role'.
+    //          Admin may update any user doc (including role changes).
+    //
+    //  DELETE  Admin only.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /users/{userId} {
+      // Any signed-in user can read user documents (for assignee display)
+      allow read: if signedIn();
+
+      // A user may create their own document.
+      // If a non-admin creates their own document, they MUST NOT set the role, or they MUST set it to 'client'.
+      // Admins can create any user document with any role.
+      allow create: if signedIn()
+        && (
+          isAdmin() ||
+          (request.auth.uid == userId && (
+            !request.resource.data.keys().hasAny(['role']) || request.resource.data.role == 'client'
+          ))
+        );
+
+      // A user may update their OWN doc, but cannot change role.
+      // Admin may update any doc (including role changes).
+      allow update: if isAdmin()
+        || (signedIn()
+            && request.auth.uid == userId
+            && !request.resource.data.diff(resource.data)
+                  .affectedKeys()
+                  .hasAny(['role']));
+
+      // Only admin can delete user documents
+      allow delete: if isAdmin();
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 5. Notifications
+    //    Users may read and mark-read only their OWN notifications.
+    //    Admin may create and delete notifications.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /notifications/{notificationId} {
+      allow read, update: if signedIn()
+        && (resource.data.recipientId == request.auth.uid || isAdmin());
+      // Only admin or a user sending to themselves may create notifications.
+      // Prevents clients from spamming the admin with fake notifications.
+      allow create: if signedIn()
+        && (isAdmin() || request.resource.data.recipientId == request.auth.uid);
+      allow delete: if isAdmin();
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 6. Admin-only Collections
+    //    Financial records, internal CRM data — visible to admin only.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /clients/{docId} {
+      allow read, write: if isAdmin();
+    }
+    match /transactions/{docId} {
+      allow read, write: if isAdmin();
+    }
+    match /workerPayments/{docId} {
+      allow read, write: if isAdmin();
+    }
+    match /monthlyLedgers/{docId} {
+      allow read, write: if isAdmin();
+    }
+    match /recurringExpenses/{docId} {
+      allow read, write: if isAdmin();
+    }
+    match /monthlyPayments/{docId} {
+      allow read, write: if isAdmin();
+    }
+    match /notes/{docId} {
+      allow read, write: if isAdmin();
+    }
+    match /todos/{docId} {
+      allow read, write: if isAdmin();
+    }
+    match /communications/{docId} {
+      allow read, write: if isAdmin();
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 7. Coupons
+    //    Signed-in users may read (needed to validate a coupon at checkout).
+    //    Only admin may create / update / delete.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /coupons/{couponId} {
+      allow read:             if signedIn();
+      allow create, update, delete: if isAdmin();
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 8. Bookings
+    //    Anyone may submit a booking (public form — unauthenticated OK).
+    //    Only admin may read, update, or delete.
+    //    The owner (matched by email or uid) may read their own booking.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /bookings/{bookingId} {
+      // Booking form submissions go through submitPublicBooking Cloud Function
+      // (admin SDK, bypasses rules). Direct SDK creates require auth to prevent
+      // unauthenticated bots from flooding the collection.
+      allow create: if signedIn();
+      allow read:   if isAdmin()
+        || (signedIn()
+            && (resource.data.get('clientUid', '') == request.auth.uid
+                || (request.auth.token.get('email', '') != '' && resource.data.get('email', '') == request.auth.token.email)));
+      allow update, delete: if isAdmin();
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 9. Analytics events
+    //    Require auth so unauthenticated scripts cannot spam this collection.
+    //    Signed-in users (including guests who complete Google One-Tap login)
+    //    may log events. Only admin may read or delete.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /analytics/{docId} {
+      allow create:               if signedIn();
+      allow read, update, delete: if isAdmin();
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 10. Audit Logs
+    //     auditLogs  — reserved for Cloud Functions (admin SDK bypasses rules).
+    //     activityLogs — written by client SDK (logActivity util, authenticated).
+    //     Admin reads both. No one may update or delete either.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /auditLogs/{docId} {
+      allow read:  if isAdmin();
+      allow write: if false;
+    }
+
+    match /activityLogs/{docId} {
+      allow create: if signedIn();
+      allow read:   if isAdmin();
+      allow update, delete: if false;
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 11. Rate Limits
+    //     Internal counters written by Cloud Functions only.
+    //     Admin reads for debugging. No direct client access.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /rateLimits/{docId} {
+      allow read, write: if isAdmin();
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Pre-aggregated Stats
+    //     Written by client SDK (statsUpdater) from authenticated admin actions.
+    //     Admin reads. Signed-in users may update (increment) but not delete.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /stats/{docId} {
+      allow read, create, update: if isAdmin();
+      allow delete:               if isAdmin();
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 12. Performance Metrics (staff)
+    //     Written only by Cloud Functions. Admin reads all.
+    //     Each staff member may read their own doc (docId == their uid).
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /performanceMetrics/{userId} {
+      allow read:  if isAdmin() || (signedIn() && request.auth.uid == userId);
+      allow write: if false;
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 13. Archived Tasks
+    //     Written only by Cloud Functions (autoArchiveTasks, admin SDK bypasses rules).
+    //     Admin reads for review/restore. No client writes ever.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /archivedTasks/{docId} {
+      allow read:  if isAdmin();
+      allow write: if false;
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 14. User Role Overrides
+    //     Written by AuthContext when authUID != canonicalUID (UID mismatch).
+    //     Used by isAdmin() / isStaff() as a fallback role source.
+    //     Any signed-in user may write to their OWN override record.
+    //     Admin may read/write any override.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /user_role_overrides/{uid} {
+      allow read:   if signedIn();
+      allow write:  if signedIn() && (request.auth.uid == uid || isAdmin())
+                    && (
+                      !request.resource.data.keys().hasAny(['role']) 
+                      || isAdmin()
+                      || (
+                        request.resource.data.role == get(/databases/$(database)/documents/users/$(request.resource.data.canonicalUid)).data.role
+                        && request.auth.token.email == get(/databases/$(database)/documents/users/$(request.resource.data.canonicalUid)).data.email
+                      )
+                    );
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 16. Catch-all Deny
+    //    Any collection not explicitly listed above is DENIED to everyone.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+  }
+}
