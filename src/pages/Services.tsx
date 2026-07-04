@@ -130,7 +130,7 @@ export function Services() {
         }
         .svc-tab:hover { border-color:var(--accent-gold-deep); color:var(--text-primary); background:var(--surface-1); }
         .svc-tab.active {
-          background:var(--text-primary); color:var(--bg-color);
+          background:var(--text-primary) !important; color:var(--bg-color) !important;
           border-color:var(--text-primary);
           box-shadow:var(--shadow-sm);
         }

@@ -318,9 +318,13 @@ html.dark .apple-glass {
 }
 
 /* â”€â”€ Buttons â”€â”€ */
+/* !important on background/color: a later "DARK MODE FIXES" rule
+   (html.dark button:not([class*='btn-primary'])) forces color: var(--text-primary)
+   on every button lacking "btn-primary" in its class list, which would otherwise
+   collide with this rule's own inverted background and make the text invisible. */
 .apple-btn {
-  background: var(--text-primary);
-  color: var(--bg-color);
+  background: var(--text-primary) !important;
+  color: var(--bg-color) !important;
   border: none;
   border-radius: 12px;
   padding: 12px 24px;

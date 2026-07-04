@@ -1,6 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { signInWithCredential, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
@@ -30,8 +29,7 @@ function loadGsiScript(onLoad: () => void) {
   document.head.appendChild(s);
 }
 
-export function GoogleOneTap({ onLogin }: { onLogin?: () => void }) {
-  const navigate = useNavigate();
+export function GoogleOneTap() {
   const { user, userData } = useAuth();
 
   // Cancel prompt as soon as auth resolves (user was already logged in)
@@ -54,9 +52,10 @@ export function GoogleOneTap({ onLogin }: { onLogin?: () => void }) {
         callback: async (resp: any) => {
           try {
             const cred = GoogleAuthProvider.credential(resp.credential);
+            // Don't navigate here — App.tsx's own redirect fires once
+            // AuthContext's onAuthStateChanged has actually settled, avoiding
+            // a race where we leave /login before auth state catches up.
             await signInWithCredential(auth, cred);
-            onLogin?.();
-            navigate('/dashboard');
           } catch (err) {
             console.warn('[GoogleOneTap] credential sign-in failed:', err);
           }

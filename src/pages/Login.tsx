@@ -66,7 +66,7 @@ const T = {
 
 
 
-export function Login({ onLogin }: { onLogin: () => void }) {
+export function Login() {
 
   const nav = useNavigate();
 
@@ -226,19 +226,13 @@ export function Login({ onLogin }: { onLogin: () => void }) {
 
       }
 
-      const cred = await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
 
-      if (!cred.user.emailVerified) {
-
-        await signOut(auth);
-
-        setError('Please verify your email before signing in.');
-
-        return;
-
-      }
-
-      onLogin();
+      // Don't navigate here — AuthContext's onAuthStateChanged (which also
+      // enforces email verification) hasn't necessarily processed this sign-in
+      // yet, so an immediate onLogin()/navigate() races it: App.tsx's own
+      // "user is set, still on /login -> go to /dashboard" redirect fires
+      // once auth state has actually settled, avoiding a flash back to /login.
 
     } catch (err: any) {
 
@@ -868,7 +862,7 @@ export function Login({ onLogin }: { onLogin: () => void }) {
 
 
 
-      <GoogleOneTap onLogin={onLogin} />
+      <GoogleOneTap />
 
     </div>
 

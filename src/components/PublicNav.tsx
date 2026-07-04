@@ -308,12 +308,12 @@ export function PublicNav() {
         html.dark .pnav-icon-btn:hover { background: rgba(255,255,255,0.12); }
         .pnav-btn {
           padding: 10px 24px; border-radius: 14px; border: none; cursor: pointer;
-          background: var(--text-primary);
-          color: var(--bg-color); font-size: 15px; font-weight: 600; font-family: ${font};
+          background: var(--text-primary) !important;
+          color: var(--bg-color) !important; font-size: 15px; font-weight: 600; font-family: ${font};
           transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
           letter-spacing: -0.01em;
         }
-        html.dark .pnav-btn { background: #fff; color: #000; }
+        html.dark .pnav-btn { background: #fff !important; color: #000 !important; }
         .pnav-btn:hover { transform: translateY(-1px); opacity: 0.85; }
         html.dark .pnav-btn:hover { opacity: 0.85; }
         .pnav-menu-btn {

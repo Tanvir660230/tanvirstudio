@@ -357,7 +357,7 @@ export default function App() {
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.div key={location.pathname} initial={{ opacity: 0, y: 14, scale: 0.995 }} animate={{ opacity: 1, y: 0, scale: 1, transition: { duration: 0.28, ease: [0.16, 1, 0.3, 1] } }} exit={{ opacity: 0, transition: { duration: 0.12, ease: 'easeIn' } }} style={{ touchAction: 'pan-y' }}>
               <Routes location={location}>
-                <Route path="/login"                element={<Login onLogin={() => navigate('/dashboard')} />} />
+                <Route path="/login"                element={<Login />} />
                 <Route path="/terms"                element={<ErrorBoundary><Terms /></ErrorBoundary>} />
                 <Route path="/privacy"              element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
                 <Route path="/services"             element={<ErrorBoundary><Services /></ErrorBoundary>} />
