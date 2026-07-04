@@ -2566,9 +2566,13 @@ html.dark .form-input:focus, html.dark .form-select:focus, html.dark input:focus
 }
 
 /* Buttons — public marketing pages only (scoped to avoid colliding with the admin .btn-primary/.btn-ghost above) */
+/* !important needed on background/color: the admin .btn-primary rule above sets
+   `color: #fff !important`, which otherwise beats this selector's higher specificity
+   (important declarations ignore specificity from non-important ones) and produces
+   white text on this rule's own light background — i.e. invisible button text. */
 .public-layout .btn-primary {
-  background: var(--text-primary);
-  color: var(--bg-color);
+  background: var(--text-primary) !important;
+  color: var(--bg-color) !important;
   border: none;
   border-radius: 100px;
   padding: 14px 28px;
