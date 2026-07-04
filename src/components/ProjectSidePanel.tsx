@@ -675,7 +675,7 @@ export function ProjectSidePanel({ task, isOpen, onClose, onOpenFull, onGenerate
                               <button 
                                 type="submit"
                                 disabled={isSubmittingPayment || !paymentAmount}
-                                style={{ flex: 1.5, padding: '9px', borderRadius: 8, border: 'none', background: 'linear-gradient(135deg, #34C759, #30D158)', color: 'var(--card-bg)', fontSize: 12, fontWeight: 700, cursor: isSubmittingPayment || !paymentAmount ? 'not-allowed' : 'pointer', opacity: isSubmittingPayment || !paymentAmount ? 0.6 : 1, boxShadow: 'none', transition: 'transform 0.1s' }}
+                                style={{ flex: 1.5, padding: '9px', borderRadius: 8, border: 'none', background: 'linear-gradient(135deg, #34C759, #30D158)', color: '#fff', fontSize: 12, fontWeight: 700, cursor: isSubmittingPayment || !paymentAmount ? 'not-allowed' : 'pointer', opacity: isSubmittingPayment || !paymentAmount ? 0.6 : 1, boxShadow: 'none', transition: 'transform 0.1s' }}
                                 onMouseDown={(e) => { if (!isSubmittingPayment && paymentAmount) e.currentTarget.style.transform = 'scale(0.97)'; }}
                                 onMouseUp={(e) => e.currentTarget.style.transform = 'none'}
                                 onMouseLeave={(e) => e.currentTarget.style.transform = 'none'}
@@ -894,7 +894,7 @@ export function ProjectSidePanel({ task, isOpen, onClose, onOpenFull, onGenerate
                         <div style={{ display: 'flex', gap: 8 }}>
                           <button onClick={() => setShowFileInput(false)} style={{ flex: 1, padding: '8px', borderRadius: 8, border: '1px solid var(--border-color)', background: 'var(--surface-1)', color: 'var(--text-secondary)', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
                           <button onClick={handleAddFile} disabled={!newFileUrl.trim() || addingFile}
-                            style={{ flex: 2, padding: '8px', borderRadius: 8, border: 'none', background: 'linear-gradient(135deg,#34C759,#30D158)', color: 'var(--card-bg)', fontSize: 12, fontWeight: 700, cursor: !newFileUrl.trim() || addingFile ? 'not-allowed' : 'pointer', opacity: !newFileUrl.trim() || addingFile ? 0.6 : 1 }}>
+                            style={{ flex: 2, padding: '8px', borderRadius: 8, border: 'none', background: 'linear-gradient(135deg,#34C759,#30D158)', color: '#fff', fontSize: 12, fontWeight: 700, cursor: !newFileUrl.trim() || addingFile ? 'not-allowed' : 'pointer', opacity: !newFileUrl.trim() || addingFile ? 0.6 : 1 }}>
                             {addingFile ? 'Saving...' : 'Save File'}
                           </button>
                         </div>
@@ -1008,7 +1008,7 @@ export function ProjectSidePanel({ task, isOpen, onClose, onOpenFull, onGenerate
                 onClick={() => { onClose(); onOpenFull(task); }}
                 style={{
                   flex: 1, padding: '14px 0', borderRadius: '14px',
-                  background: 'linear-gradient(135deg, var(--text-primary), #444)', color: 'var(--card-bg)',
+                  background: 'linear-gradient(135deg, var(--text-primary), #444)', color: '#fff',
                   border: 'none', cursor: 'pointer',
                   fontSize: '14px', fontWeight: '800', letterSpacing: '-0.2px',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',

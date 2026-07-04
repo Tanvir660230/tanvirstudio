@@ -89,6 +89,15 @@ async function createAdminNotification(title, message, type = "info") {
   });
 }
 
+// Best-effort caller IP for callable functions — used as a second rate-limit key
+// alongside the caller-supplied email/phone, since that string is trivial to rotate.
+function getClientIp(req) {
+  const raw = req && req.rawRequest;
+  const fwd = raw && raw.headers && raw.headers["x-forwarded-for"];
+  if (typeof fwd === "string" && fwd.length) return fwd.split(",")[0].trim();
+  return (raw && raw.ip) || "unknown";
+}
+
 // Per-user per-function rate limit using Firestore (default: 20 calls / hour)
 async function checkRateLimit(uid, fnName, maxCalls = 20, windowMs = 3_600_000) {
   const ref  = db.doc(`rateLimits/${uid}_${fnName}`);
@@ -1801,6 +1810,10 @@ exports.submitPublicContactForm = onCall(async (req) => {
   // Honeypot: bots fill hidden fields
   if (honeypot) throw new HttpsError("permission-denied", "Submission blocked");
 
+  // IP-based limit first: catches scripts that rotate a fake email/phone per request
+  // (the email-keyed limit below is trivially bypassed on its own).
+  await checkRateLimit(getClientIp(req), "contact_ip", 8, 3_600_000);
+
   const safeEmail   = sanitize(email || "", 200).toLowerCase();
   const safeName    = sanitize(name    || "", 200);
   const safePhone   = sanitize(phone   || "", 20);
@@ -1852,10 +1865,14 @@ exports.submitPublicOrder = onCall(async (req) => {
   const data = req.data || {};
   
   if (data.honeypot) throw new HttpsError("permission-denied", "Submission blocked");
-  
+
+  // IP-based limit first: catches scripts that rotate a fake email per request
+  // (the email-keyed limit below is trivially bypassed on its own).
+  await checkRateLimit(getClientIp(req), "order_ip", 8, 3_600_000);
+
   const safeEmail = sanitize(data.clientEmail || "", 200).toLowerCase();
   if (!safeEmail) throw new HttpsError("invalid-argument", "Email required");
-  
+
   const limitKey = safeEmail;
   const rlRef  = db.doc(`rateLimits/order_${limitKey.replace(/[^a-zA-Z0-9_]/g, "_").slice(0, 60)}`);
   const rlSnap = await rlRef.get();
@@ -1874,9 +1891,13 @@ exports.submitPublicOrder = onCall(async (req) => {
     await rlRef.set({ count: 1, windowStart: now });
   }
 
-  // Enforce validation constraints
-  const safeBudget = Math.max(0, Number(data.budget) || 0);
-  const safeAdvance = Math.max(0, Number(data.advance) || 0);
+  // Enforce validation constraints. Public submissions are unauthenticated, so
+  // treat these as untrusted display values, not a real payment record: cap them
+  // at a sane ceiling and never let the claimed advance exceed the claimed budget
+  // (prevents a fake "already paid" number from misleading staff).
+  const MAX_PUBLIC_ORDER_AMOUNT = 5_000_000;
+  const safeBudget = Math.min(MAX_PUBLIC_ORDER_AMOUNT, Math.max(0, Number(data.budget) || 0));
+  const safeAdvance = Math.min(safeBudget, Math.max(0, Number(data.advance) || 0));
 
   const docData = {
     title: sanitize(data.title || "New Order", 200),
@@ -1900,7 +1921,7 @@ exports.submitPublicOrder = onCall(async (req) => {
   
   if (data.couponCode) {
     docData.couponCode = sanitize(data.couponCode, 30);
-    docData.couponDiscount = Math.max(0, Number(data.couponDiscount) || 0);
+    docData.couponDiscount = Math.min(safeBudget, Math.max(0, Number(data.couponDiscount) || 0));
   }
 
   const docRef = await db.collection("tasks").add(docData);
@@ -1918,10 +1939,14 @@ exports.submitPublicBooking = onCall(async (req) => {
   const data = req.data || {};
   
   if (data.honeypot) throw new HttpsError("permission-denied", "Submission blocked");
-  
+
+  // IP-based limit first: catches scripts that rotate a fake email per request
+  // (the email-keyed limit below is trivially bypassed on its own).
+  await checkRateLimit(getClientIp(req), "booking_ip", 8, 3_600_000);
+
   const safeEmail = sanitize(data.email || "", 200).toLowerCase();
   if (!safeEmail) throw new HttpsError("invalid-argument", "Email required");
-  
+
   const limitKey = safeEmail;
   const rlRef  = db.doc(`rateLimits/booking_${limitKey.replace(/[^a-zA-Z0-9_]/g, "_").slice(0, 60)}`);
   const rlSnap = await rlRef.get();

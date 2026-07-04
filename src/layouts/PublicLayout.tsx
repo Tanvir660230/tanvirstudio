@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
@@ -38,10 +38,15 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
 
   const isLoginPage = location.pathname === '/login';
 
-
-
-
-  // theme logic might be handled globally via document classes, but if it needs to be injected into PublicLayout div:
+  // Sync <html>.dark with the stored/OS preference — App.tsx does this for admin
+  // routes on mount, but public routes never applied it, so they always rendered
+  // in the light-mode CSS variables regardless of the user's saved theme.
+  useEffect(() => {
+    const stored = localStorage.getItem('hs-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const shouldBeDark = stored ? stored === 'dark' : prefersDark;
+    document.documentElement.classList.toggle('dark', shouldBeDark);
+  }, []);
 
   const theme = settings?.theme || 'dark';
 

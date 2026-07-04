@@ -123,12 +123,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .title, .shimmer-h1 {
 
 html.dark {
   /* â”€â”€ The Theater Vibe (Dark Mode) â”€â”€ */
-  --bg-color: #030304;
-  --bg-color-rgb: 5, 5, 5;
-  --card-bg: rgba(18, 18, 20, 0.4);
-  --glass-bg: rgba(20, 20, 22, 0.65);
+  --bg-color: #000000;
+  --bg-color-rgb: 0, 0, 0;
+  --card-bg: rgba(0, 0, 0, 0.4);
+  --glass-bg: rgba(0, 0, 0, 0.65);
   --glass-border: rgba(255, 255, 255, 0.1);
-  --sidebar-bg: rgba(10, 10, 12, 0.45);
+  --sidebar-bg: rgba(0, 0, 0, 0.45);
   --surface-1: rgba(255, 255, 255, 0.03);
   --surface-2: rgba(255, 255, 255, 0.06);
   --input-bg: rgba(255, 255, 255, 0.04);
@@ -1236,7 +1236,7 @@ html.dark .sortable-task-row:hover {
 }
 
 html.dark .mobile-header {
-  background: rgba(13, 13, 18, 0.92);
+  background: rgba(0, 0, 0, 0.92);
   border-bottom-color: rgba(255,255,255,0.07);
   box-shadow: none;
 }
@@ -1299,7 +1299,7 @@ html.dark .mobile-header {
 }
 
 html.dark .mobile-tab-bar {
-  background: rgba(14, 14, 20, 0.88);
+  background: rgba(0, 0, 0, 0.88);
   border-top-color: rgba(255, 255, 255, 0.07);
   box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.3);
 }
@@ -1583,7 +1583,7 @@ html.dark .mobile-tab-bar {
 }
 
 html.dark .sidebar {
-  background: linear-gradient(180deg, #0c0b11 0%, #0e0d14 60%, #0c0b12 100%);
+  background: #000000;
   border-right-color: rgba(255,255,255,0.07);
   box-shadow: 1px 0 0 rgba(255,255,255,0.04), 4px 0 20px rgba(0,0,0,0.3);
 }
@@ -1723,7 +1723,7 @@ html.dark .logo-container {
   pointer-events: none;
 }
 html.dark .main-header {
-  background: rgba(10, 9, 15, 0.95) !important;
+  background: rgba(0, 0, 0, 0.95) !important;
   border-bottom: 1px solid rgba(255,255,255,0.07) !important;
   box-shadow: 0 1px 0 rgba(0,0,0,0.5), 0 4px 24px rgba(0,0,0,0.3) !important;
 }
@@ -1913,7 +1913,7 @@ html.dark .main-header::before {
 }
 
 html.dark .main-header {
-  background: rgba(13, 13, 18, 0.92) !important;
+  background: rgba(0, 0, 0, 0.92) !important;
   border-bottom: 1px solid rgba(255,255,255,0.07) !important;
   box-shadow: none !important;
 }
@@ -2358,24 +2358,10 @@ html.dark .hover-lift-2:hover {
   z-index: 9999;
   opacity: 0.04;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  animation: grain-animation 8s steps(10) infinite;
 }
 
 html.dark .grain-overlay {
-  opacity: 0.06; /* Slightly more visible in dark mode */
-}
-
-@keyframes grain-animation {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(-5%, -10%); }
-  20% { transform: translate(-15%, 5%); }
-  30% { transform: translate(7%, -25%); }
-  40% { transform: translate(-5%, 25%); }
-  50% { transform: translate(-15%, 10%); }
-  60% { transform: translate(15%, 0%); }
-  70% { transform: translate(0%, 15%); }
-  80% { transform: translate(3%, 35%); }
-  90% { transform: translate(-10%, 10%); }
+  opacity: 0.025; /* static — was stepping every 0.8s, causing a visible flicker against pure black */
 }
 
 /* 2. Frosted Glassmorphism */
@@ -2387,7 +2373,7 @@ html.dark .grain-overlay {
 }
 
 html.dark .glass-panel {
-  background: rgba(18, 18, 20, 0.6);
+  background: rgba(0, 0, 0, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -2399,7 +2385,7 @@ html.dark .glass-panel {
 }
 
 html.dark .public-nav-glass {
-  background: rgba(5, 5, 5, 0.75) !important;
+  background: rgba(0, 0, 0, 0.75) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
 }
 
@@ -2579,8 +2565,8 @@ html.dark .form-input:focus, html.dark .form-select:focus, html.dark input:focus
   .section { padding: 68px 20px; }
 }
 
-/* Buttons */
-.btn-primary {
+/* Buttons — public marketing pages only (scoped to avoid colliding with the admin .btn-primary/.btn-ghost above) */
+.public-layout .btn-primary {
   background: var(--text-primary);
   color: var(--bg-color);
   border: none;
@@ -2598,16 +2584,16 @@ html.dark .form-input:focus, html.dark .form-select:focus, html.dark input:focus
   letter-spacing: -0.01em;
 }
 
-.btn-primary:hover {
+.public-layout .btn-primary:hover {
   transform: scale(1.03);
   box-shadow: 0 8px 24px rgba(0,0,0,0.1);
 }
 
-html.dark .btn-primary:hover {
+html.dark .public-layout .btn-primary:hover {
   box-shadow: 0 8px 24px rgba(255,255,255,0.1);
 }
 
-.btn-ghost {
+.public-layout .btn-ghost {
   background: var(--glass-bg);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
@@ -2627,7 +2613,7 @@ html.dark .btn-primary:hover {
   -webkit-backdrop-filter: blur(12px);
 }
 
-.btn-ghost:hover {
+.public-layout .btn-ghost:hover {
   background: var(--surface-1);
   transform: scale(1.03);
 }

@@ -394,7 +394,7 @@ export function About() {
               </div>
               <Link
                 to="/booking"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 100, background: 'linear-gradient(135deg, var(--accent-gold), #b8882e)', color: 'var(--card-bg)', fontWeight: 700, fontSize: 14, textDecoration: 'none', alignSelf: 'flex-start', boxShadow: 'none', transition: 'opacity 0.15s, transform 0.15s', letterSpacing: '-0.01em' }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 100, background: 'linear-gradient(135deg, var(--accent-gold), #b8882e)', color: '#fff', fontWeight: 700, fontSize: 14, textDecoration: 'none', alignSelf: 'flex-start', boxShadow: 'none', transition: 'opacity 0.15s, transform 0.15s', letterSpacing: '-0.01em' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.88'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1'; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}
               >

@@ -35,7 +35,7 @@ npm run dev
 ### Firebase setup
 
 1. Create a project at [console.firebase.google.com](https://console.firebase.google.com)
-2. Copy your config into `src/lib/firebase.ts`
+2. Copy `.env.example` to `.env` and fill in your Firebase config, BulkSMS, EmailJS, Google OAuth, and VAPID keys (see below)
 3. Enable **Firestore** and **Authentication** (Email/Password)
 4. Paste Firestore rules from `firestore.rules` into Firebase Console → Firestore → Rules → Publish
 5. Paste Storage rules from `storage.rules` into Firebase Console → Storage → Rules → Publish
@@ -59,7 +59,10 @@ public/
 
 ## Environment
 
-No `.env` file is required — Firebase config lives directly in `src/lib/firebase.ts`.
+A `.env` file is required — copy `.env.example` to `.env` and fill in the real values.
+`src/lib/firebase.ts` reads Firebase config from `import.meta.env.VITE_FIREBASE_*`, and
+other modules read the BulkSMS, EmailJS, Google OAuth, and FCM VAPID keys the same way.
+Never commit `.env` (it's already in `.gitignore`).
 
 ## Build
 

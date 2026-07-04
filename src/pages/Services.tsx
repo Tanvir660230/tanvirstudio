@@ -309,7 +309,7 @@ export function Services() {
                         <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--accent-gold)' }}>Flagship Service</span>
                       </div>
                     </div>
-                    <h2 style={{ fontSize: 'clamp(28px, 4vw, 46px)', fontWeight: 900, color: 'var(--card-bg)', letterSpacing: '-0.035em', margin: '0 0 10px', lineHeight: 1.08 }}>
+                    <h2 style={{ fontSize: 'clamp(28px, 4vw, 46px)', fontWeight: 900, color: '#fff', letterSpacing: '-0.035em', margin: '0 0 10px', lineHeight: 1.08 }}>
                       Nasheed Production
                     </h2>
                     <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.48)', lineHeight: 1.72, maxWidth: 500 }}>
@@ -330,7 +330,7 @@ export function Services() {
                         style={{ cursor: 'pointer' }}
                       >
                         {pkg.popular && (
-                          <span style={{ position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)', fontSize: 9, fontWeight: 900, color: 'var(--card-bg)', background: 'var(--gradient-gold)', padding: '3px 14px', borderRadius: 100, letterSpacing: '0.12em', textTransform: 'uppercase', boxShadow: 'none', whiteSpace: 'nowrap' }}>
+                          <span style={{ position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)', fontSize: 9, fontWeight: 900, color: '#fff', background: 'var(--gradient-gold)', padding: '3px 14px', borderRadius: 100, letterSpacing: '0.12em', textTransform: 'uppercase', boxShadow: 'none', whiteSpace: 'nowrap' }}>
                             Most Popular
                           </span>
                         )}
@@ -381,7 +381,7 @@ export function Services() {
                       initial={{ scale: 0.94, opacity: 0.5 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ duration: 0.22 }}
-                      style={{ fontSize: 38, fontWeight: 900, color: 'var(--card-bg)', letterSpacing: '-0.045em', lineHeight: 1 }}
+                      style={{ fontSize: 38, fontWeight: 900, color: '#fff', letterSpacing: '-0.045em', lineHeight: 1 }}
                     >
                       ৳{(activePkgs.find(p => p.id === nasheedPkg)?.price || 0).toLocaleString()}
                     </motion.div>

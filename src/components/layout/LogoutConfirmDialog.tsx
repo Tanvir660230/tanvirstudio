@@ -56,7 +56,7 @@ export function LogoutConfirmDialog({ show, onClose, onConfirm }: LogoutConfirmD
               >Cancel</button>
               <button
                 onClick={onConfirm}
-                style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: 'var(--accent-red)', color: 'var(--card-bg)', fontSize: '13px', fontWeight: '600', cursor: 'pointer', transition: 'filter 0.12s' }}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: 'var(--accent-red)', color: '#fff', fontSize: '13px', fontWeight: '600', cursor: 'pointer', transition: 'filter 0.12s' }}
                 onMouseOver={e => (e.currentTarget.style.filter = 'brightness(1.1)')}
                 onMouseOut={e => (e.currentTarget.style.filter = 'none')}
               >Sign Out</button>

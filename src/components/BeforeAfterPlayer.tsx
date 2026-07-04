@@ -205,7 +205,7 @@ export function BeforeAfterPlayer({ title, artist, rawUrl, masteredUrl }: Before
           <button
             onClick={togglePlay}
             style={{
-              background: textColor, color: 'var(--card-bg)',
+              background: textColor, color: '#fff',
               border: 'none', width: '56px', height: '56px', borderRadius: '50%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               cursor: 'pointer',

@@ -382,7 +382,7 @@ export function AdminHeader({
                       <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                           <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--text-primary)' }}>Notifications</span>
-                          {unreadCount > 0 && <span style={{ background: 'var(--accent-red)', color: 'var(--card-bg)', fontSize: 10, fontWeight: 700, padding: '1px 6px', borderRadius: 999 }}>{unreadCount}</span>}
+                          {unreadCount > 0 && <span style={{ background: 'var(--accent-red)', color: '#fff', fontSize: 10, fontWeight: 700, padding: '1px 6px', borderRadius: 999 }}>{unreadCount}</span>}
                         </div>
                         {unreadCount > 0 && <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--accent-gold)', cursor: 'pointer' }} onClick={markAllRead}>Mark all read</span>}
                       </div>
@@ -393,7 +393,7 @@ export function AdminHeader({
                             <div style={{ flex: 1, minWidth: 0 }}>
                               <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 3, display: 'flex', alignItems: 'center', gap: 6 }}>
                                 {n.title}
-                                {count > 1 && <span style={{ fontSize: 10, fontWeight: 800, background: 'var(--accent-gold)', color: 'var(--card-bg)', padding: '1px 6px', borderRadius: 999 }}>× {count}</span>}
+                                {count > 1 && <span style={{ fontSize: 10, fontWeight: 800, background: 'var(--accent-gold)', color: '#fff', padding: '1px 6px', borderRadius: 999 }}>× {count}</span>}
                               </div>
                               <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{n.message}</div>
                               <div style={{ fontSize: 10, color: 'var(--text-tertiary)', marginTop: 5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.4px' }}>

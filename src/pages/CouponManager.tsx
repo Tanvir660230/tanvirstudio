@@ -208,7 +208,7 @@ export function CouponManager() {
 
         <button onClick={() => setShowForm(true)}
 
-          style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 18px', borderRadius: 11, background: 'linear-gradient(135deg,var(--accent-gold),#9a6828)', color: 'var(--card-bg)', border: 'none', fontSize: 13, fontWeight: 800, cursor: 'pointer', boxShadow: 'none' }}>
+          style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 18px', borderRadius: 11, background: 'linear-gradient(135deg,var(--accent-gold),#9a6828)', color: '#fff', border: 'none', fontSize: 13, fontWeight: 800, cursor: 'pointer', boxShadow: 'none' }}>
 
           <Plus size={15} /> New Coupon
 
@@ -334,7 +334,7 @@ export function CouponManager() {
 
             <button onClick={handleSave} disabled={saving || !form.code.trim() || !form.value}
 
-              style={{ flex: 2, padding: '10px', borderRadius: 9, border: 'none', background: 'linear-gradient(135deg,var(--accent-gold),#9a6828)', color: 'var(--card-bg)', fontSize: 13, fontWeight: 800, cursor: saving || !form.code.trim() || !form.value ? 'not-allowed' : 'pointer', opacity: !form.value ? 0.6 : 1 }}>
+              style={{ flex: 2, padding: '10px', borderRadius: 9, border: 'none', background: 'linear-gradient(135deg,var(--accent-gold),#9a6828)', color: '#fff', fontSize: 13, fontWeight: 800, cursor: saving || !form.code.trim() || !form.value ? 'not-allowed' : 'pointer', opacity: !form.value ? 0.6 : 1 }}>
 
               {saving ? 'Saving...' : 'Create Coupon'}
 

@@ -524,7 +524,7 @@ export function InvoiceModal({ task, onClose }: InvoiceModalProps) {
 
           placeholder="Add a note..."
 
-          style={{ background: 'rgba(0,0,0,0.2)', border: 'none', color: 'var(--card-bg)', padding: '10px 16px', borderRadius: 12, fontSize: 14, outline: 'none', minWidth: 0, flex: '1 1 140px', maxWidth: 200 }}
+          style={{ background: 'rgba(0,0,0,0.2)', border: 'none', color: '#fff', padding: '10px 16px', borderRadius: 12, fontSize: 14, outline: 'none', minWidth: 0, flex: '1 1 140px', maxWidth: 200 }}
 
         />
 
@@ -544,7 +544,7 @@ export function InvoiceModal({ task, onClose }: InvoiceModalProps) {
 
         </button>
 
-        <button onClick={handlePrint} style={{ ...actionButton, background: 'rgba(255,255,255,0.16)', color: 'var(--card-bg)' }}>
+        <button onClick={handlePrint} style={{ ...actionButton, background: 'rgba(255,255,255,0.16)', color: '#fff' }}>
 
           <Printer size={16} strokeWidth={2.6} />
 
@@ -568,7 +568,7 @@ export function InvoiceModal({ task, onClose }: InvoiceModalProps) {
 
               background: emailStatus === 'sent' ? 'rgba(52,199,89,0.25)' : emailStatus === 'error' ? 'rgba(255,59,48,0.25)' : 'rgba(255,255,255,0.16)',
 
-              color: 'var(--card-bg)',
+              color: '#fff',
 
               opacity: isSendingEmail ? 0.7 : 1,
 
@@ -600,7 +600,7 @@ export function InvoiceModal({ task, onClose }: InvoiceModalProps) {
 
             background: 'rgba(255,255,255,0.16)',
 
-            color: 'var(--card-bg)',
+            color: '#fff',
 
           }}
 
@@ -698,7 +698,7 @@ export function InvoiceModal({ task, onClose }: InvoiceModalProps) {
 
               ) : (
 
-                <div style={{ width: 58, height: 58, borderRadius: 14, background: `linear-gradient(135deg, ${deep}, ${accent})`, color: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 900, letterSpacing: 1, flexShrink: 0, boxShadow: 'none' }}>
+                <div style={{ width: 58, height: 58, borderRadius: 14, background: `linear-gradient(135deg, ${deep}, ${accent})`, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 900, letterSpacing: 1, flexShrink: 0, boxShadow: 'none' }}>
 
                   TS
 
@@ -832,7 +832,7 @@ export function InvoiceModal({ task, onClose }: InvoiceModalProps) {
 
         <section style={{ marginBottom: 28, overflow: 'hidden', borderRadius: 8 }}>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 88px 140px', background: `linear-gradient(135deg, ${deep}, #332413)`, color: 'var(--card-bg)', fontSize: 11.5, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.8 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 88px 140px', background: `linear-gradient(135deg, ${deep}, #332413)`, color: '#fff', fontSize: 11.5, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.8 }}>
 
             <div style={{ padding: '13px 16px' }}>Description</div>
 

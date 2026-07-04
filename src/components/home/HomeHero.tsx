@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Play } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { sanitizeInlineHtml } from '../../utils/sanitizeHtml';
 
 interface HomeHeroProps {
   heroBgImage: string;
@@ -36,7 +37,7 @@ export function HomeHero({ heroBgImage, effectiveHasBg, heroBgLoaded, activeComp
       <div style={{ position: 'relative', zIndex: 20, textAlign: 'center', padding: '0 16px', maxWidth: '896px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <motion.h1 
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
-          dangerouslySetInnerHTML={{ __html: t('home.heroTitle') }}
+          dangerouslySetInnerHTML={{ __html: sanitizeInlineHtml(t('home.heroTitle')) }}
           style={{ fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '24px' }}>
         </motion.h1>
         <motion.p

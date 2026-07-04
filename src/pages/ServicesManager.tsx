@@ -554,7 +554,7 @@ export function ServicesManager() {
 
           <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0, color: 'var(--text-primary)' }}>Services</h2>
 
-          <button onClick={() => handleOpenForm()} style={{ padding: '8px 16px', borderRadius: 100, background: 'var(--accent-blue)', color: 'var(--card-bg)', border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, transition: 'transform 0.15s, filter 0.15s' }}
+          <button onClick={() => handleOpenForm()} style={{ padding: '8px 16px', borderRadius: 100, background: 'var(--accent-blue)', color: '#fff', border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, transition: 'transform 0.15s, filter 0.15s' }}
 
             onMouseEnter={e => e.currentTarget.style.filter = 'brightness(1.1)'} onMouseLeave={e => e.currentTarget.style.filter = 'none'}>
 
@@ -732,7 +732,7 @@ export function ServicesManager() {
 
                         <button onClick={() => setConfirmDeleteId(null)} style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-secondary)', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
 
-                        <button onClick={() => handleDelete(item.id)} style={{ padding: '6px 12px', borderRadius: 8, border: 'none', background: 'var(--color-danger)', color: 'var(--card-bg)', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Delete</button>
+                        <button onClick={() => handleDelete(item.id)} style={{ padding: '6px 12px', borderRadius: 8, border: 'none', background: 'var(--color-danger)', color: '#fff', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Delete</button>
 
                       </div>
 
@@ -780,7 +780,7 @@ export function ServicesManager() {
 
         </div>
 
-        <button type="button" onClick={handleSave} disabled={saving} style={{ padding: '8px 20px', borderRadius: 100, background: 'var(--accent-blue)', color: 'var(--card-bg)', border: 'none', cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, opacity: saving ? 0.7 : 1 }}>
+        <button type="button" onClick={handleSave} disabled={saving} style={{ padding: '8px 20px', borderRadius: 100, background: 'var(--accent-blue)', color: '#fff', border: 'none', cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, opacity: saving ? 0.7 : 1 }}>
 
           {saving ? <><Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> Saving...</> : 'Save Service'}
 

@@ -359,7 +359,7 @@ export function MobileWorkView({
           {(userRole === 'admin' || userRole === 'composer') && (
             <button onClick={handleOpenModal} style={{
               width: 40, height: 40, borderRadius: 8, border: 'none', flexShrink: 0,
-              background: 'var(--accent-blue)', color: 'var(--card-bg)',
+              background: 'var(--accent-blue)', color: '#fff',
               display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
               boxShadow: 'none',
             }}>
@@ -398,7 +398,7 @@ export function MobileWorkView({
             <div style={{ fontSize: 32, marginBottom: 10 }}>🔍</div>
             <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>No projects found</div>
             <div style={{ fontSize: 13, fontWeight: 500 }}>No results for "{searchQuery}"</div>
-            <button onClick={() => setSearchQuery('')} style={{ marginTop: 14, padding: '8px 18px', borderRadius: 10, border: 'none', background: 'var(--accent-blue)', color: 'var(--card-bg)', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Clear Search</button>
+            <button onClick={() => setSearchQuery('')} style={{ marginTop: 14, padding: '8px 18px', borderRadius: 10, border: 'none', background: 'var(--accent-blue)', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Clear Search</button>
           </div>
         )}
 

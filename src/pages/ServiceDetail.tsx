@@ -260,7 +260,7 @@ export function ServiceDetail() {
             style={{ flex: 1, padding: '12px 0', border: 'none', background: 'transparent', color: activeTier === t ? 'var(--card-bg)' : 'var(--text-secondary)', fontSize: 14, fontWeight: 700, cursor: 'pointer', textTransform: 'capitalize', position: 'relative', zIndex: 2, transition: 'color 0.3s ease' }}>
             {t}
             {t === 'standard' && (
-              <span style={{ position: 'absolute', top: -8, right: '50%', transform: 'translateX(50%)', background: 'var(--color-warning)', color: 'var(--card-bg)', fontSize: 9, fontWeight: 800, padding: '2px 6px', borderRadius: 100, letterSpacing: '0.05em' }}>POPULAR</span>
+              <span style={{ position: 'absolute', top: -8, right: '50%', transform: 'translateX(50%)', background: 'var(--color-warning)', color: '#fff', fontSize: 9, fontWeight: 800, padding: '2px 6px', borderRadius: 100, letterSpacing: '0.05em' }}>POPULAR</span>
             )}
           </button>
         ))}

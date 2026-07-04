@@ -325,7 +325,7 @@ export function StageEmptyState({
               padding: '11px 22px',
               borderRadius: '12px',
               background: accent,
-              color: 'var(--card-bg)',
+              color: '#fff',
               border: 'none',
               cursor: 'pointer',
               fontSize: '13.5px',

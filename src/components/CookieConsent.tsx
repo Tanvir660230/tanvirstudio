@@ -74,7 +74,7 @@ export function CookieConsent() {
       `} />
 
       <div style={{ flex: 1 }}>
-        <p style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 700, color: 'var(--card-bg)', letterSpacing: '-0.01em' }}>
+        <p style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 700, color: '#fff', letterSpacing: '-0.01em' }}>
           We use cookies
         </p>
         <p style={{ margin: '0 0 14px', fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.5 }}>

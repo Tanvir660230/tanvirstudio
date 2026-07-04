@@ -259,7 +259,7 @@ export function HeroBgManager({ fireToast }: { fireToast: FireToast }) {
 
             <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
 
-              <span style={{ color: 'var(--card-bg)', fontSize: 22, fontWeight: 800, letterSpacing: '-0.03em', textShadow: '0 2px 12px rgba(0,0,0,0.6)' }}>Pro sound. Pure emotion.</span>
+              <span style={{ color: '#fff', fontSize: 22, fontWeight: 800, letterSpacing: '-0.03em', textShadow: '0 2px 12px rgba(0,0,0,0.6)' }}>Pro sound. Pure emotion.</span>
 
               <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: 13 }}>Preview — hero text over your image</span>
 
@@ -293,7 +293,7 @@ export function HeroBgManager({ fireToast }: { fireToast: FireToast }) {
 
           disabled={saving}
 
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 18px', borderRadius: 10, background: 'var(--color-info)', color: 'var(--card-bg)', border: 'none', fontWeight: 700, fontSize: 13, cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.6 : 1 }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 18px', borderRadius: 10, background: 'var(--color-info)', color: '#fff', border: 'none', fontWeight: 700, fontSize: 13, cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.6 : 1 }}
 
         >
 
@@ -355,7 +355,7 @@ export function HeroBgManager({ fireToast }: { fireToast: FireToast }) {
 
             disabled={saving || !urlInput.trim()}
 
-            style={{ padding: '9px 16px', borderRadius: 10, background: 'var(--accent-blue)', color: 'var(--card-bg)', border: 'none', fontWeight: 700, fontSize: 13, cursor: (saving || !urlInput.trim()) ? 'not-allowed' : 'pointer', opacity: (saving || !urlInput.trim()) ? 0.5 : 1 }}
+            style={{ padding: '9px 16px', borderRadius: 10, background: 'var(--accent-blue)', color: '#fff', border: 'none', fontWeight: 700, fontSize: 13, cursor: (saving || !urlInput.trim()) ? 'not-allowed' : 'pointer', opacity: (saving || !urlInput.trim()) ? 0.5 : 1 }}
 
           >
 
@@ -1023,7 +1023,7 @@ export function TestimonialsManager({ fireToast }: { fireToast: FireToast }) {
 
                     <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--color-info)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Pending Approval</div>
 
-                    <span style={{ fontSize: 11, fontWeight: 800, background: 'var(--color-info)', color: 'var(--card-bg)', padding: '1px 7px', borderRadius: 999 }}>{pendingReviews.length}</span>
+                    <span style={{ fontSize: 11, fontWeight: 800, background: 'var(--color-info)', color: '#fff', padding: '1px 7px', borderRadius: 999 }}>{pendingReviews.length}</span>
 
                     <div style={{ flex: 1, height: 1, background: 'rgba(0,122,255,0.2)' }} />
 
@@ -2476,7 +2476,7 @@ function AudioInputWithUpload({ label, value, onChange, required, storageKey, fi
 
           disabled={uploading}
 
-          style={{ padding: '9px 14px', borderRadius: 10, background: 'var(--color-info)', color: 'var(--card-bg)', border: 'none', fontWeight: 700, fontSize: 12, cursor: uploading ? 'not-allowed' : 'pointer', opacity: uploading ? 0.65 : 1, display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, whiteSpace: 'nowrap' as const }}
+          style={{ padding: '9px 14px', borderRadius: 10, background: 'var(--color-info)', color: '#fff', border: 'none', fontWeight: 700, fontSize: 12, cursor: uploading ? 'not-allowed' : 'pointer', opacity: uploading ? 0.65 : 1, display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, whiteSpace: 'nowrap' as const }}
 
         >
 

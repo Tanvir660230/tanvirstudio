@@ -152,7 +152,7 @@ export function AppSidebar({
                         >
                           {item.label}
                           {(item.badge ?? 0) > 0 && (
-                            <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 800, background: 'var(--accent-gold)', color: 'var(--card-bg)', padding: '1px 6px', borderRadius: 999, lineHeight: 1.6, flexShrink: 0 }}>
+                            <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 800, background: 'var(--accent-gold)', color: '#fff', padding: '1px 6px', borderRadius: 999, lineHeight: 1.6, flexShrink: 0 }}>
                               {item.badge}
                             </span>
                           )}

@@ -7,7 +7,7 @@ export const translations = {
       blog: 'Blog',
       calculator: 'Calculator',
       login: 'Client Portal',
-      book: 'Book Session'
+      booking: 'Book Session'
     },
     home: {
       heroTitle: 'Elevating <span class="italic-serif">Sound</span> <br/> <span style="color: #d1d5db">& Digital Craft.</span>',
@@ -24,7 +24,7 @@ export const translations = {
       blog: 'ব্লগ',
       calculator: 'ক্যালকুলেটর',
       login: 'ক্লায়েন্ট পোর্টাল',
-      book: 'বুক করুন'
+      booking: 'বুক করুন'
     },
     home: {
       heroTitle: 'সাউন্ড এবং <span class="italic-serif">ডিজিটাল ক্রাফট</span> <br/> <span style="color: #d1d5db">এক নতুন উচ্চতায়।</span>',

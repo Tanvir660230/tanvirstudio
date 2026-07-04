@@ -62,7 +62,7 @@ export function FloatingChat() {
           alignItems: 'center',
           gap: 10,
           background: '#25d366',
-          color: 'var(--card-bg)',
+          color: '#fff',
           borderRadius: 100,
           padding: hovered ? '13px 20px 13px 16px' : '13px',
           boxShadow: 'none',

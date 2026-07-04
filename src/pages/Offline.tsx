@@ -9,7 +9,7 @@ export function Offline() {
         <div style={{ width: 72, height: 72, borderRadius: 20, background: 'rgba(217,173,98,0.1)', border: '1px solid rgba(217,173,98,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 28px' }}>
           <WifiOff size={30} color="var(--accent-gold-light)" strokeWidth={1.5} />
         </div>
-        <h1 style={{ fontSize: 26, fontWeight: 900, color: 'var(--card-bg)', letterSpacing: '-0.04em', margin: '0 0 12px' }}>
+        <h1 style={{ fontSize: 26, fontWeight: 900, color: '#fff', letterSpacing: '-0.04em', margin: '0 0 12px' }}>
           You're offline
         </h1>
         <p style={{ fontSize: 15, color: 'var(--text-tertiary)', lineHeight: 1.7, margin: '0 0 32px' }}>

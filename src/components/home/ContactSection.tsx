@@ -82,7 +82,7 @@ export function ContactSection({ settings, waLink }: { dark: boolean; settings: 
             <div style={{ borderRadius: 20, overflow: 'hidden', border: `1px solid ${border}`, background: panel, boxShadow: 'var(--shadow-xs)' }}>
               <div style={{ background: `linear-gradient(135deg, ${ accent }, ${accentD})`, padding: '28px 28px 24px' }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.75)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Contact Information</div>
-                <div style={{ fontSize: 22, fontWeight: 900, color: 'var(--card-bg)', letterSpacing: '-0.03em', lineHeight: 1.2 }}>{settings?.studioName || 'Tanvir Studio'}</div>
+                <div style={{ fontSize: 22, fontWeight: 900, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1.2 }}>{settings?.studioName || 'Tanvir Studio'}</div>
                 {settings?.studioAddress && <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', marginTop: 4 }}>{settings.studioAddress.split(',').slice(-3).join(',').trim()}</div>}
               </div>
 
@@ -118,7 +118,7 @@ export function ContactSection({ settings, waLink }: { dark: boolean; settings: 
                 {waLink && (
                   <a href={waLink} target="_blank" rel="noreferrer"
                     className="hover-opacity-75"
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 9, background: '#25d366', color: 'var(--card-bg)', borderRadius: 14, padding: '13px 20px', fontSize: 14, fontWeight: 700, textDecoration: 'none', boxShadow: 'none', transition: 'opacity 0.15s, transform 0.15s' }}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 9, background: '#25d366', color: '#fff', borderRadius: 14, padding: '13px 20px', fontSize: 14, fontWeight: 700, textDecoration: 'none', boxShadow: 'none', transition: 'opacity 0.15s, transform 0.15s' }}
                   >
                     <MessageCircle size={17} /> Chat on WhatsApp
                   </a>
@@ -214,7 +214,7 @@ export function ContactSection({ settings, waLink }: { dark: boolean; settings: 
 
                   <button type="submit" disabled={status !== 'idle'}
                     className="hover-scale"
-                    style={{ padding: '15px', borderRadius: 14, background: `linear-gradient(135deg, ${ accent }, ${accentD})`, color: 'var(--card-bg)', border: 'none', fontSize: 15, fontWeight: 800, cursor: status === 'loading' ? 'not-allowed' : 'pointer', fontFamily: font, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: status === 'loading' ? 0.7 : 1, transition: 'opacity 0.2s, transform 0.15s', boxShadow: 'none', marginTop: 4 }}
+                    style={{ padding: '15px', borderRadius: 14, background: `linear-gradient(135deg, ${ accent }, ${accentD})`, color: '#fff', border: 'none', fontSize: 15, fontWeight: 800, cursor: status === 'loading' ? 'not-allowed' : 'pointer', fontFamily: font, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: status === 'loading' ? 0.7 : 1, transition: 'opacity 0.2s, transform 0.15s', boxShadow: 'none', marginTop: 4 }}
                   >
                     {status === 'loading' ? 'Sending…' : <><Send size={15} /> Send Message</>}
                   </button>

@@ -2080,7 +2080,7 @@ export function WorkProcess() {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
 
-            <div className="icon-badge" style={{ background: 'var(--gradient-purple)', color: 'var(--card-bg)', boxShadow: 'none' }}>
+            <div className="icon-badge" style={{ background: 'var(--gradient-purple)', color: '#fff', boxShadow: 'none' }}>
 
               <Music2 size={18} strokeWidth={2.5} />
 

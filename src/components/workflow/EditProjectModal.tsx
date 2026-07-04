@@ -85,7 +85,7 @@ export function EditProjectModal({
                       onMouseOver={e => (e.currentTarget.style.background = 'var(--bg-color)')}
                       onMouseOut={e => (e.currentTarget.style.background = 'transparent')}
                     >
-                      <div style={{ width: 28, height: 28, borderRadius: '6px', background: 'var(--accent-blue)', color: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: '700', flexShrink: 0 }}>
+                      <div style={{ width: 28, height: 28, borderRadius: '6px', background: 'var(--accent-blue)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: '700', flexShrink: 0 }}>
                         {(c.name || 'C').substring(0, 2).toUpperCase()}
                       </div>
                       <div>

@@ -64,8 +64,20 @@ export default defineConfig({
     })
   ],
   base: '/',
+  server: {
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
+    },
+  },
+  preview: {
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
+    },
+  },
   build: {
-    sourcemap: 'hidden',
+    // No error-tracking service consumes sourcemaps here, so don't ship them —
+    // 'hidden' still writes .map files to dist/, which a static host will serve publicly.
+    sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks(id) {

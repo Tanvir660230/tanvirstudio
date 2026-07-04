@@ -222,10 +222,13 @@ service cloud.firestore {
     //  CREATE  IMPORTANT: AuthContext always writes a 'role' field when
     //          creating a new user document (e.g. role: 'client').
     //          We allow this ONLY for the user's own document.
-    //          Admin role is protected because:
-    //            (a) Only AuthContext sets it (server-side ADMIN_EMAIL check).
-    //            (b) A real privilege escalation attack would require the attacker
-    //                to also know the ADMIN_EMAIL and pass Firebase Auth — unlikely.
+    //          Admin role is protected by THIS RULE, not by client code:
+    //            (a) The `create` rule below only permits a non-admin's own-doc
+    //                write when 'role' is absent or equals 'client' — any other
+    //                value (e.g. 'admin') is rejected server-side by Firestore.
+    //            (b) Promoting a user to admin must be done manually (Firebase
+    //                Console or an admin-authenticated update), since client
+    //                code never sets ADMIN_EMAIL or grants elevated roles itself.
     //          Non-admin users creating their own doc with role: 'client' is safe.
     //
     //  UPDATE  A user may update their own doc, but CANNOT change their 'role'.

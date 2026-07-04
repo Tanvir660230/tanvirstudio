@@ -657,7 +657,7 @@ export function ClientModals(props: any) {
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28, background: 'var(--bg-color)', padding: '20px 24px', borderRadius: 20, border: '1px solid var(--border-color)' }}>
 
-              <div style={{ width: 56, height: 56, borderRadius: 16, background: 'linear-gradient(135deg, #007aff, #00c6ff)', color: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, fontWeight: 900, flexShrink: 0 }}>
+              <div style={{ width: 56, height: 56, borderRadius: 16, background: 'linear-gradient(135deg, #007aff, #00c6ff)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, fontWeight: 900, flexShrink: 0 }}>
 
                 {(editClientData.name || '?')[0].toUpperCase()}
 

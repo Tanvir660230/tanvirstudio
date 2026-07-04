@@ -764,7 +764,7 @@ export function OrderFlow({ pkg, postLogin = false, onClose }: OrderFlowProps) {
 
             <button onClick={() => { onClose(); navigate('/dashboard'); }}
 
-              style={{ background: T.accentGrad, color: 'var(--card-bg)', border: 'none', padding: '16px 36px', borderRadius: 12, fontSize: 15, fontWeight: 800, cursor: 'pointer', fontFamily: font, boxShadow: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              style={{ background: T.accentGrad, color: '#fff', border: 'none', padding: '16px 36px', borderRadius: 12, fontSize: 15, fontWeight: 800, cursor: 'pointer', fontFamily: font, boxShadow: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
 
               Go to Dashboard <ArrowRight size={16} />
 

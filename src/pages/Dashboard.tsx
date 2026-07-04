@@ -949,7 +949,7 @@ export function Dashboard() {
 
                 <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>New Orders</h3>
 
-                <span style={{ fontSize: 11, fontWeight: 800, background: 'var(--accent-gold)', color: 'var(--card-bg)', padding: '2px 8px', borderRadius: 999 }}>{newOrders.length}</span>
+                <span style={{ fontSize: 11, fontWeight: 800, background: 'var(--accent-gold)', color: '#fff', padding: '2px 8px', borderRadius: 999 }}>{newOrders.length}</span>
 
               </div>
 
@@ -1023,7 +1023,7 @@ export function Dashboard() {
 
                           </button>
 
-                          <button onClick={() => { setAcceptingId(order.id); setAcceptDate(''); }} style={{ height: 36, padding: '0 20px', borderRadius: 12, border: 'none', background: 'var(--accent-gold)', color: 'var(--card-bg)', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, boxShadow: 'none' }}>
+                          <button onClick={() => { setAcceptingId(order.id); setAcceptDate(''); }} style={{ height: 36, padding: '0 20px', borderRadius: 12, border: 'none', background: 'var(--accent-gold)', color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, boxShadow: 'none' }}>
 
                             <CalendarCheck size={14} /> Accept
 
@@ -1079,7 +1079,7 @@ export function Dashboard() {
 
                           }}
 
-                          style={{ height: 34, padding: '0 16px', borderRadius: 8, border: 'none', background: 'linear-gradient(135deg,var(--accent-gold),#9a6828)', color: 'var(--card-bg)', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap', boxShadow: 'none' }}>
+                          style={{ height: 34, padding: '0 16px', borderRadius: 8, border: 'none', background: 'linear-gradient(135deg,var(--accent-gold),#9a6828)', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap', boxShadow: 'none' }}>
 
                           <Check size={14} /> Confirm
 
@@ -2094,7 +2094,7 @@ export function Dashboard() {
 
         <button onClick={handleSubmitReview} disabled={reviewSubmitting}
 
-          style={{ width: '100%', marginTop: 24, padding: '16px', borderRadius: 16, border: 'none', background: 'var(--accent-gold)', color: 'var(--card-bg)', fontSize: 16, fontWeight: 700, cursor: reviewSubmitting ? 'not-allowed' : 'pointer', opacity: reviewSubmitting ? 0.7 : 1, boxShadow: 'none', transition: 'transform 0.2s' }}>
+          style={{ width: '100%', marginTop: 24, padding: '16px', borderRadius: 16, border: 'none', background: 'var(--accent-gold)', color: '#fff', fontSize: 16, fontWeight: 700, cursor: reviewSubmitting ? 'not-allowed' : 'pointer', opacity: reviewSubmitting ? 0.7 : 1, boxShadow: 'none', transition: 'transform 0.2s' }}>
 
           {reviewSubmitting ? 'Submitting...' : 'Submit Review'}
 
@@ -2195,7 +2195,7 @@ export function Dashboard() {
 
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', margin: '0 0 16px' }}>Browse our services and place an order to get started.</p>
 
-              <button onClick={() => go('/services')} style={{ background: 'linear-gradient(135deg,var(--accent-gold),#9a6828)', color: 'var(--card-bg)', border: 'none', borderRadius: 9, padding: '9px 20px', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, boxShadow: 'none' }}>
+              <button onClick={() => go('/services')} style={{ background: 'linear-gradient(135deg,var(--accent-gold),#9a6828)', color: '#fff', border: 'none', borderRadius: 9, padding: '9px 20px', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, boxShadow: 'none' }}>
 
                 Browse Services →
 

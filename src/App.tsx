@@ -487,8 +487,8 @@ export default function App() {
                     )}
                     <Route path="/settings"         element={<ErrorBoundary><SettingsPage /></ErrorBoundary>} />
                     <Route path="/notifications"    element={<ErrorBoundary><NotificationsPage /></ErrorBoundary>} />
-                    <Route path="/terms"            element={<Terms />} />
-                    <Route path="/privacy"          element={<Privacy />} />
+                    <Route path="/terms"            element={<ErrorBoundary><Terms /></ErrorBoundary>} />
+                    <Route path="/privacy"          element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
                     <Route path="/services-manager" element={<ErrorBoundary><ServicesManager /></ErrorBoundary>} />
                     <Route path="/cms"              element={<ErrorBoundary><WebsiteCMS /></ErrorBoundary>} />
                     {userData?.role === 'admin' && (

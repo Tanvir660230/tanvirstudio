@@ -268,7 +268,7 @@ export function ClientInvoiceModal({ client, tasks, onClose }: ClientInvoiceModa
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value as any)}
-            style={{ background: 'transparent', color: 'var(--card-bg)', border: 'none', outline: 'none', fontSize: '14px', fontWeight: '700', cursor: 'pointer' }}
+            style={{ background: 'transparent', color: '#fff', border: 'none', outline: 'none', fontSize: '14px', fontWeight: '700', cursor: 'pointer' }}
           >
             <option value="all" style={{ color: 'var(--text-primary)' }}>All Projects</option>
             <option value="unpaid" style={{ color: 'var(--text-primary)' }}>Unpaid Projects</option>
@@ -283,16 +283,16 @@ export function ClientInvoiceModal({ client, tasks, onClose }: ClientInvoiceModa
             placeholder="Custom Item..."
             value={customTitle}
             onChange={e => setCustomTitle(e.target.value)}
-            style={{ background: 'rgba(0,0,0,0.2)', border: 'none', color: 'var(--card-bg)', padding: '10px 16px', borderRadius: '12px', fontSize: '14px', outline: 'none', width: '140px' }}
+            style={{ background: 'rgba(0,0,0,0.2)', border: 'none', color: '#fff', padding: '10px 16px', borderRadius: '12px', fontSize: '14px', outline: 'none', width: '140px' }}
           />
           <input
             type="number"
             placeholder="Amount"
             value={customAmount}
             onChange={e => setCustomAmount(e.target.value)}
-            style={{ background: 'rgba(0,0,0,0.2)', border: 'none', color: 'var(--card-bg)', padding: '10px 16px', borderRadius: '12px', fontSize: '14px', outline: 'none', width: '90px' }}
+            style={{ background: 'rgba(0,0,0,0.2)', border: 'none', color: '#fff', padding: '10px 16px', borderRadius: '12px', fontSize: '14px', outline: 'none', width: '90px' }}
           />
-          <button type="submit" style={{ ...actionButton, background: 'var(--color-info)', color: 'var(--card-bg)', width: 42, padding: 0 }}>
+          <button type="submit" style={{ ...actionButton, background: 'var(--color-info)', color: '#fff', width: 42, padding: 0 }}>
             <Plus size={18} strokeWidth={3} />
           </button>
         </form>
@@ -302,7 +302,7 @@ export function ClientInvoiceModal({ client, tasks, onClose }: ClientInvoiceModa
           <button
             className="no-print"
             onClick={() => setExcludedTaskIds([])}
-            style={{ ...actionButton, background: 'rgba(255,255,255,0.16)', color: 'var(--card-bg)', padding: '0 12px' }}
+            style={{ ...actionButton, background: 'rgba(255,255,255,0.16)', color: '#fff', padding: '0 12px' }}
           >
             Restore {excludedTaskIds.length}
           </button>
@@ -315,7 +315,7 @@ export function ClientInvoiceModal({ client, tasks, onClose }: ClientInvoiceModa
           value={memo}
           onChange={e => setMemo(e.target.value)}
           placeholder="Add a note..."
-          style={{ background: 'rgba(0,0,0,0.2)', border: 'none', color: 'var(--card-bg)', padding: '10px 16px', borderRadius: 12, fontSize: 14, outline: 'none', width: 180 }}
+          style={{ background: 'rgba(0,0,0,0.2)', border: 'none', color: '#fff', padding: '10px 16px', borderRadius: 12, fontSize: 14, outline: 'none', width: 180 }}
         />
 
         {/* Export Actions */}
@@ -328,7 +328,7 @@ export function ClientInvoiceModal({ client, tasks, onClose }: ClientInvoiceModa
             {isGenerating ? <Spinner size={15} color={ink} /> : <Download size={16} strokeWidth={2.6} />}
             {isGenerating ? 'Generating…' : 'PDF'}
           </button>
-          <button onClick={handlePrint} style={{ ...actionButton, background: 'rgba(255,255,255,0.16)', color: 'var(--card-bg)' }}>
+          <button onClick={handlePrint} style={{ ...actionButton, background: 'rgba(255,255,255,0.16)', color: '#fff' }}>
             <Printer size={16} strokeWidth={2.6} />
             Print
           </button>
@@ -340,7 +340,7 @@ export function ClientInvoiceModal({ client, tasks, onClose }: ClientInvoiceModa
               width: 42,
               padding: 0,
               background: 'rgba(255,59,48,0.8)',
-              color: 'var(--card-bg)',
+              color: '#fff',
             }}
           >
             <X size={18} strokeWidth={2.6} />
@@ -392,7 +392,7 @@ export function ClientInvoiceModal({ client, tasks, onClose }: ClientInvoiceModa
                   style={{ width: 62, height: 62, objectFit: 'contain', borderRadius: 10, background: 'transparent', padding: 0, flexShrink: 0 }}
                 />
               ) : (
-                <div style={{ width: 58, height: 58, borderRadius: 14, background: `linear-gradient(135deg, ${deep}, ${accent})`, color: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 900, letterSpacing: 1, flexShrink: 0, boxShadow: 'none' }}>
+                <div style={{ width: 58, height: 58, borderRadius: 14, background: `linear-gradient(135deg, ${deep}, ${accent})`, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 900, letterSpacing: 1, flexShrink: 0, boxShadow: 'none' }}>
                   TS
                 </div>
               )}
@@ -498,7 +498,7 @@ export function ClientInvoiceModal({ client, tasks, onClose }: ClientInvoiceModa
         </section>
 
         <section style={{ marginBottom: 44 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 160px', background: `linear-gradient(135deg, ${deep}, #332413)`, color: 'var(--card-bg)', fontSize: 11.5, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.8, borderRadius: '8px 8px 0 0' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 160px', background: `linear-gradient(135deg, ${deep}, #332413)`, color: '#fff', fontSize: 11.5, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.8, borderRadius: '8px 8px 0 0' }}>
             <div style={{ padding: '13px 16px' }}>Project / Description</div>
             <div style={{ padding: '13px 16px', textAlign: 'right' }}>Amount</div>
           </div>

@@ -454,7 +454,7 @@ function EditModal({
 
             <button onClick={handleSave} disabled={saving}
 
-              style={{ height: 36, padding: '0 20px', borderRadius: 9, border: 'none', background: 'linear-gradient(135deg,var(--accent-gold),#9a6828)', color: 'var(--card-bg)', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 7, fontFamily: 'inherit', boxShadow: 'none', opacity: saving ? 0.7 : 1 }}>
+              style={{ height: 36, padding: '0 20px', borderRadius: 9, border: 'none', background: 'linear-gradient(135deg,var(--accent-gold),#9a6828)', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 7, fontFamily: 'inherit', boxShadow: 'none', opacity: saving ? 0.7 : 1 }}>
 
               {saving ? <><Spinner size={13} color="var(--card-bg)" /> Saving…</> : <><Check size={14} /> Save Changes</>}
 
@@ -828,7 +828,7 @@ export function NewOrders() {
 
         {allPendingOrders.length > 0 && (
 
-          <span style={{ fontSize: 12, fontWeight: 800, background: 'var(--accent-gold)', color: 'var(--card-bg)', padding: '2px 9px', borderRadius: 999, lineHeight: 1.6 }}>
+          <span style={{ fontSize: 12, fontWeight: 800, background: 'var(--accent-gold)', color: '#fff', padding: '2px 9px', borderRadius: 999, lineHeight: 1.6 }}>
 
             {allPendingOrders.length}
 
@@ -1236,7 +1236,7 @@ export function NewOrders() {
 
                   <button disabled={actionLoading === order.id + '_accept'} onClick={() => handleAccept(order.id)}
 
-                    style={{ height: 34, padding: '0 16px', borderRadius: 8, border: 'none', background: 'linear-gradient(135deg,var(--accent-gold),#9a6828)', color: 'var(--card-bg)', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'inherit', boxShadow: 'none', opacity: actionLoading === order.id + '_accept' ? 0.7 : 1 }}>
+                    style={{ height: 34, padding: '0 16px', borderRadius: 8, border: 'none', background: 'linear-gradient(135deg,var(--accent-gold),#9a6828)', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'inherit', boxShadow: 'none', opacity: actionLoading === order.id + '_accept' ? 0.7 : 1 }}>
 
                     {actionLoading === order.id + '_accept' ? <Spinner size={14} color="var(--card-bg)" /> : <><Check size={14} /> Confirm</>}
 

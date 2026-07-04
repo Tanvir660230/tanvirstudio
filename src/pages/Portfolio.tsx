@@ -355,7 +355,7 @@ export function Portfolio() {
           <p style={{ fontSize: 15, color: 'var(--text-secondary)', lineHeight: 1.7, margin: '0 0 32px' }}>
             Join {settings?.statsArtists ? `${settings.statsArtists}+` : '200+'} artists who trust Tanvir Studio for world-class production.
           </p>
-          <button onClick={() => navigate('/contact')} style={{ padding: '13px 34px', borderRadius: 100, background: 'var(--gradient-gold)', color: 'var(--card-bg)', border: 'none', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: font, letterSpacing: '-0.01em' }}>
+          <button onClick={() => navigate('/contact')} style={{ padding: '13px 34px', borderRadius: 100, background: 'var(--gradient-gold)', color: '#fff', border: 'none', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: font, letterSpacing: '-0.01em' }}>
             Start Your Project
           </button>
         </motion.div>
