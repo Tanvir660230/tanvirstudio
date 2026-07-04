@@ -14,7 +14,7 @@ import {
 
   signInWithEmailAndPassword, createUserWithEmailAndPassword,
 
-  signInWithPopup, sendPasswordResetEmail, sendEmailVerification,
+  signInWithRedirect, getRedirectResult, sendPasswordResetEmail, sendEmailVerification,
 
   signOut, updateProfile,
 
@@ -261,19 +261,30 @@ export function Login({ onLogin }: { onLogin: () => void }) {
     setLoading(true); reset();
 
     try {
-
-      await signInWithPopup(auth, googleProvider);
-
-      onLogin();
-
+      // Popup-based sign-in unreliably reports "closed by user" right after the
+      // account picker under a Cross-Origin-Opener-Policy header (COOP breaks
+      // Firebase's cross-origin window.closed polling) — redirect avoids that
+      // entirely. Result is picked up by the getRedirectResult effect below.
+      await signInWithRedirect(auth, googleProvider);
     } catch (err: any) {
       console.error("Google Auth Error:", err);
-      if (err.code === 'auth/popup-closed-by-user') setError('Login cancelled.');
-      else if (err.code === 'auth/popup-blocked') setError('Popup blocked by browser. Please allow popups.');
-      else setError(`Google sign-in failed: ${err.message || err.code}`);
-    } finally { setLoading(false); }
+      setError(`Google sign-in failed: ${err.message || err.code}`);
+      setLoading(false);
+    }
 
   };
+
+
+
+  // Pick up the result of a signInWithRedirect once the browser navigates back.
+  // On success, onAuthStateChanged (AuthContext) fires and App.tsx's own
+  // redirect-away-from-/login logic takes over — nothing else to do here.
+  useEffect(() => {
+    getRedirectResult(auth).catch((err: any) => {
+      console.error("Google Redirect Auth Error:", err);
+      setError(`Google sign-in failed: ${err.message || err.code}`);
+    });
+  }, []);
 
 
 
