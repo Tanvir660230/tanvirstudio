@@ -13,8 +13,9 @@
       })();
     </script>
 
-    <!-- ── Content Security Policy ── -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://accounts.google.com https://apis.google.com https://www.googletagmanager.com https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://firebasestorage.googleapis.com https://lh3.googleusercontent.com; connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://accounts.google.com wss://*.firebaseio.com https://firebase.googleapis.com https://www.googleapis.com https://firebaseinstallations.googleapis.com https://www.google.com https://www.google-analytics.com; frame-src 'self' https://accounts.google.com;" />
+    <!-- ── Content Security Policy is set via the Netlify HTTP header (netlify.toml), not here.
+         A meta-tag CSP AND a header CSP at the same time get intersected by the browser —
+         whichever policy is missing an origin wins, silently blocking things the other allows. ── -->
 
     <!-- ── Skip to content (accessibility) ── -->
     <style>
