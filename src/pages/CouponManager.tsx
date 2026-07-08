@@ -232,7 +232,7 @@ export function CouponManager() {
 
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+          <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
 
             <div>
 
@@ -366,7 +366,7 @@ export function CouponManager() {
 
         ) : coupons.map((c: any) => (
 
-          <div key={c.id} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 18px', background: 'var(--card-bg)', borderRadius: 13, border: '1px solid var(--border-color)', opacity: c.active === false ? 0.55 : 1 }}>
+          <div key={c.id} className="toolbar-row" style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 18px', background: 'var(--card-bg)', borderRadius: 13, border: '1px solid var(--border-color)', opacity: c.active === false ? 0.55 : 1 }}>
 
             <div style={{ width: 38, height: 38, borderRadius: 10, background: c.active !== false ? 'rgba(196,154,82,0.12)' : 'var(--bg-color)', border: `1px solid ${c.active !== false ? 'rgba(196,154,82,0.25)' : 'var(--border-color)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
 
@@ -376,7 +376,7 @@ export function CouponManager() {
 
             <div style={{ flex: 1, minWidth: 0 }}>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 3 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 3, flexWrap: 'wrap' }}>
 
                 <span style={{ fontSize: 15, fontWeight: 900, color: 'var(--text-primary)', fontFamily: 'monospace', letterSpacing: '.08em' }}>{c.code}</span>
 

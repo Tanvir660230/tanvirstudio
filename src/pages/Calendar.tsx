@@ -108,10 +108,13 @@ export function Calendar() {
 
                     return isMobile ? (
                       <div key={t.id + (isRecording ? 'r' : 'd')} style={{
-                        width: 6, height: 6, borderRadius: '50%', background: color, flexShrink: 0, cursor: 'pointer'
+                        width: 6, height: 6, margin: -7, padding: 7, borderRadius: '50%',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, cursor: 'pointer'
                       }} title={`${isRecording ? 'Session' : isDelivery ? 'Due' : 'Start'}: ${t.title}`}
                         onClick={() => navigate('/work', { state: { openTaskId: t.id } })}
-                      />
+                      >
+                        <div style={{ width: 6, height: 6, borderRadius: '50%', background: color, flexShrink: 0 }} />
+                      </div>
                     ) : (
                       <motion.div
                         initial={{ opacity: 0, x: -5 }} animate={{ opacity: 1, x: 0 }}

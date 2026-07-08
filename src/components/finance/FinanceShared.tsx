@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Briefcase, Check, CheckCircle2, ChevronDown, Edit2, Mail, Paperclip,
   TrendingDown, TrendingUp, UserRound, X, Home, Zap, Wifi, MoreHorizontal, AlertTriangle,
+  Bell, Wallet,
 } from 'lucide-react';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../lib/firebase';
@@ -660,5 +661,138 @@ export function FormInput({ label, value, onChange, type = 'text', placeholder, 
       <label className="form-label" htmlFor={id}>{label}</label>
       <input id={id} name={id} autoFocus={autoFocus} className="form-input" type={type} value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} required={required} />
     </div>
+  );
+}
+
+export function GoalBar({ goal, current, money }: { goal: number; current: number; money: (n: number) => string }) {
+  const pct = Math.min(100, Math.round((current / goal) * 100));
+  const over = current >= goal;
+  return (
+    <div style={{ marginTop: 12, background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: 10, padding: '12px 16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+        <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>Monthly Income Goal</span>
+        <span style={{ fontSize: 13, fontWeight: 700, color: over ? 'var(--color-success)' : 'var(--text-secondary)' }}>
+          {money(current)} / {money(goal)} &nbsp;·&nbsp; {pct}%{over ? ' ✓' : ''}
+        </span>
+      </div>
+      <div style={{ height: 8, background: 'var(--border-color)', borderRadius: 999, overflow: 'hidden' }}>
+        <div style={{ height: '100%', width: `${pct}%`, borderRadius: 999, background: over ? 'var(--color-success)' : pct >= 75 ? 'var(--color-warning)' : 'var(--color-info)', transition: 'width 0.4s ease' }} />
+      </div>
+      {!over && <div style={{ marginTop: 6, fontSize: 11, color: 'var(--text-tertiary)', fontWeight: 600 }}>{money(goal - current)} remaining to hit target</div>}
+    </div>
+  );
+}
+
+export function HealthScore({ cashIn, cashProfit, paidBillsCount, totalBillsCount, totalClientDue, avgMonthlyIncome, money }: {
+  cashIn: number; cashProfit: number; paidBillsCount: number; totalBillsCount: number;
+  totalClientDue: number; avgMonthlyIncome: number; money: (n: number) => string;
+}) {
+  // Profit margin (0–40): positive margin scaled to 40 pts
+  const marginScore = cashIn > 0 ? Math.max(0, Math.min(40, Math.round((cashProfit / cashIn) * 40))) : 0;
+  // Bill payment rate (0–30)
+  const billScore = totalBillsCount > 0 ? Math.round((paidBillsCount / totalBillsCount) * 30) : 30;
+  // All-time collection score (0–30): use 3× avg monthly income as max-due benchmark
+  const dueBenchmark = Math.max(avgMonthlyIncome * 3, 1);
+  const collectionScore = Math.max(0, Math.round((1 - Math.min(1, totalClientDue / dueBenchmark)) * 30));
+  const score = marginScore + billScore + collectionScore;
+  const grade = score >= 80 ? { label: 'Excellent', color: '#15803d', bg: '#f0fdf4' }
+    : score >= 60 ? { label: 'Good', color: '#1d4ed8', bg: '#eff6ff' }
+    : score >= 40 ? { label: 'Fair', color: '#b45309', bg: '#fffbeb' }
+    : { label: 'Needs Attention', color: '#b91c1c', bg: '#fef2f2' };
+  return (
+    <div style={{ marginTop: 12, background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: 10, padding: '12px 16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+        <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>Financial Health Score</span>
+        <span style={{ fontSize: 13, fontWeight: 800, padding: '2px 10px', borderRadius: 20, background: grade.bg, color: grade.color }}>{grade.label}</span>
+      </div>
+      <div style={{ height: 8, background: 'var(--border-color)', borderRadius: 999, overflow: 'hidden' }}>
+        <div style={{ height: '100%', width: `${score}%`, borderRadius: 999, background: score >= 80 ? 'var(--color-success)' : score >= 60 ? 'var(--color-info)' : score >= 40 ? 'var(--color-warning)' : 'var(--color-danger)', transition: 'width 0.5s ease' }} />
+      </div>
+      <div style={{ marginTop: 6, display: 'flex', gap: 16, fontSize: 11, color: 'var(--text-tertiary)', fontWeight: 600, flexWrap: 'wrap' }}>
+        <span>Profit margin: {marginScore}/40</span>
+        <span>Bills paid: {billScore}/30</span>
+        <span title={`${money(totalClientDue)} outstanding vs benchmark ${money(dueBenchmark)}`}>Collection: {collectionScore}/30</span>
+        <span style={{ marginLeft: 'auto', fontWeight: 800, color: 'var(--text-primary)', fontSize: 14 }}>{score}/100</span>
+      </div>
+    </div>
+  );
+}
+
+export function KpiCard({ label, value, sub, tone, icon, trend }: {
+  label: string; value: string; sub: string; tone: string; icon: React.ReactNode; trend?: number;
+}) {
+  const hasTrend = trend !== undefined && trend !== 0;
+  return (
+    <div className={`ledger-kpi ${tone}`}>
+      <div className="ledger-kpi-icon">{icon}</div>
+      <div className="ledger-kpi-label">{label}</div>
+      <div className="ledger-kpi-value">{value}</div>
+      <div className="ledger-kpi-sub" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+        {hasTrend ? (
+          <span style={{ color: trend! > 0 ? 'var(--color-success)' : 'var(--color-danger)', fontWeight: 700, fontSize: 11 }}>
+            {trend! > 0 ? '↑' : '↓'} {Math.abs(trend!)}% vs last mo
+          </span>
+        ) : (
+          sub || null
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function LedgerPanel({ title, icon, description, actionLabel, onAction, children }: { title: string; icon: React.ReactNode; description?: string; actionLabel?: string; onAction?: () => void; children: React.ReactNode }) {
+  return (
+    <section className="ledger-panel">
+      <div className="ledger-panel-head">
+        <div className="ledger-panel-title-wrap">
+          <div className="ledger-panel-icon">{icon}</div>
+          <div>
+            <h2>{title}</h2>
+            {description && <p>{description}</p>}
+          </div>
+        </div>
+        {actionLabel && onAction && <button className="ledger-small-button" onClick={onAction}>{actionLabel}</button>}
+      </div>
+      <div className="ledger-panel-body">{children}</div>
+    </section>
+  );
+}
+
+export function ActionCenter({ items, currency }: { items: any[]; currency: string }) {
+  return (
+    <section className="ledger-action-center">
+      <div className="ledger-action-center-head">
+        <div>
+          <div className="ledger-action-center-title">Priority Actions</div>
+          <div className="ledger-action-center-sub">Collect dues, settle payable work, and clear monthly bills.</div>
+        </div>
+        <div className="ledger-action-count">{items.length} open</div>
+      </div>
+
+      {items.length === 0 ? (
+        <div className="ledger-action-empty">
+          <CheckCircle2 size={20} />
+          All finance actions are clear.
+        </div>
+      ) : (
+        <div className="ledger-action-list">
+          {items.map((item: any) => (
+            <div key={item.id} className={`ledger-action-item ${item.tone}`}>
+              <div className="ledger-action-dot">
+                {item.tone === 'red' ? <AlertTriangle size={16} /> : item.tone === 'orange' ? <Wallet size={16} /> : <Bell size={16} />}
+              </div>
+              <div className="ledger-row-main">
+                <div className="ledger-row-title">{item.title}</div>
+                <div className="ledger-row-sub">{item.sub}</div>
+              </div>
+              <div className="ledger-row-money">
+                <strong>{currency}{Number(item.amount).toLocaleString()}</strong>
+              </div>
+              <button className="ledger-row-button" onClick={item.action}>{item.label}</button>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
   );
 }

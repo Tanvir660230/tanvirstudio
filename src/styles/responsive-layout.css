@@ -1,0 +1,177 @@
+/* â”€â”€ Responsive Layout â”€â”€ */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 72px;
+    padding: 20px 10px;
+  }
+  .sidebar .logo-container span,
+  .sidebar .nav-item span,
+  .sidebar .nav-item {
+    justify-content: center;
+  }
+  .sidebar .nav-item { font-size: 0; gap: 0; padding: 11px; }
+  .sidebar .logo-container { justify-content: center; padding: 0; margin-bottom: 36px; }
+  .sidebar .logo-container span { display: none; }
+  .main-content { padding: 86px 36px 28px; }
+  .search-bar { width: 240px; }
+}
+
+@media (max-width: 768px) {
+  .sidebar { display: none !important; }
+  .main-content {
+    margin-left: 0;
+    padding: 16px;
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
+    padding-top: 10px;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .search-bar { width: 100%; }
+
+  .card {
+    padding: 12px !important;
+    border-radius: 8px !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .card::before { display: none !important; }
+  .panel::before { display: none !important; }
+
+  .dot-grid, .ambient-glow { display: none !important; }
+
+  .btn:hover, .hover-row:hover, .card:hover, .nav-item:hover {
+    transform: none !important;
+    box-shadow: var(--shadow-xs) !important;
+    background-color: inherit;
+    border-color: inherit;
+  }
+  .btn:active { opacity: 0.75 !important; }
+
+  .page-header {
+    margin-bottom: 18px !important;
+    gap: 10px !important;
+  }
+
+  ::-webkit-scrollbar { display: none; }
+
+  body {
+    overscroll-behavior-y: none;
+  }
+
+  .mf-pie-container {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+    gap: 16px !important;
+  }
+
+  .admin-kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0 !important;
+  }
+
+  .dash-bottom-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    margin-bottom: 18px !important;
+  }
+  .kpi-card { padding: 14px !important; border-radius: 12px !important; }
+  .kpi-number { font-size: 22px !important; margin-bottom: 5px !important; }
+
+  .dash-welcome-banner {
+    padding: 16px !important;
+    border-radius: 12px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+  .dash-welcome-banner h1 { font-size: 16px !important; margin-bottom: 2px !important; }
+  .dash-welcome-banner p { font-size: 12px !important; }
+  .dash-welcome-actions {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+  .dash-welcome-actions .btn {
+    font-size: 12px !important;
+    padding: 8px 10px !important;
+    justify-content: center !important;
+  }
+
+  .admin-action-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .admin-action-tile {
+    padding: 12px !important;
+    border-radius: 10px !important;
+    gap: 10px !important;
+  }
+
+  .admin-card-header {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+  }
+
+  .admin-order-main {
+    flex-wrap: wrap !important;
+  }
+
+  .admin-order-actions {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .admin-order-actions button {
+    justify-content: center !important;
+    width: 100% !important;
+  }
+
+  .admin-order-meta {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+  }
+
+  .admin-order-meta span {
+    margin-left: 0 !important;
+  }
+
+  .client-row {
+    grid-template-columns: 36px 1fr auto !important;
+    grid-template-rows: auto auto !important;
+    gap: 8px 10px !important;
+  }
+  .client-list-header { display: none !important; }
+  .client-status-col {
+    align-items: flex-start !important;
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+  }
+  .client-finance-col {
+    grid-column: 1 / -1 !important;
+    grid-row: 3 !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    border-top: 1px solid var(--border-color) !important;
+    padding-top: 8px !important;
+    margin-top: 2px !important;
+    gap: 20px !important;
+  }
+  .client-actions-col {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+    justify-content: flex-end !important;
+  }
+}
+

@@ -7,7 +7,7 @@ import {
 } from 'firebase/firestore';
 import { auth, db, requestAndSaveFCMToken } from '../lib/firebase';
 
-interface UserData {
+export interface UserData {
   uid: string;
   email: string;
   role: 'admin' | 'composer' | 'humming_artist' | 'client';

@@ -75,7 +75,7 @@ service cloud.firestore {
 
     // Fields that ONLY admins may change (clients and staff cannot touch these)
     function adminOnlyFields() {
-      return ['budget', 'composerId', 'hummingArtistId',
+      return ['budget', 'advance', 'balance', 'composerId', 'hummingArtistId',
               'composerCommissionPct', 'composerCommissionType', 'composerCommissionAmount',
               'hummingArtistCommissionPct', 'hummingArtistCommissionType', 'hummingArtistCommissionAmount',
               'payments', 'publicOrder', 'clientEmail', 'clientUid', 'client'];
@@ -83,7 +83,7 @@ service cloud.firestore {
 
     // Fields that CLIENTS may NOT change (but staff CAN change, e.g. status update)
     function clientOnlyRestrictedFields() {
-      return ['budget', 'status', 'composerId', 'hummingArtistId',
+      return ['budget', 'advance', 'balance', 'status', 'composerId', 'hummingArtistId',
               'composerCommissionPct', 'composerCommissionType', 'composerCommissionAmount',
               'hummingArtistCommissionPct', 'hummingArtistCommissionType', 'hummingArtistCommissionAmount',
               'payments', 'publicOrder', 'clientEmail', 'clientUid', 'client'];
@@ -439,10 +439,10 @@ service cloud.firestore {
       allow read:   if signedIn();
       allow write:  if signedIn() && (request.auth.uid == uid || isAdmin())
                     && (
-                      !request.resource.data.keys().hasAny(['role']) 
-                      || isAdmin()
+                      isAdmin()
                       || (
-                        request.resource.data.role == get(/databases/$(database)/documents/users/$(request.resource.data.canonicalUid)).data.role
+                        request.resource.data.keys().hasAll(['role', 'canonicalUid'])
+                        && request.resource.data.role == get(/databases/$(database)/documents/users/$(request.resource.data.canonicalUid)).data.role
                         && request.auth.token.email == get(/databases/$(database)/documents/users/$(request.resource.data.canonicalUid)).data.email
                       )
                     );

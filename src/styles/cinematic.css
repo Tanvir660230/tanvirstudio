@@ -1,0 +1,158 @@
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   ðŸŒŸ CINEMATIC ENHANCEMENTS
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+/* 1. Cinematic Film Grain Overlay */
+.grain-overlay {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+html.dark .grain-overlay {
+  opacity: 0.025; /* static — was stepping every 0.8s, causing a visible flicker against pure black */
+}
+
+/* 2. Frosted Glassmorphism */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+html.dark .glass-panel {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.public-nav-glass {
+  background: rgba(252, 252, 253, 0.75) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
+}
+
+html.dark .public-nav-glass {
+  background: rgba(0, 0, 0, 0.75) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+
+/* 3. Editorial Typography */
+.italic-serif {
+  font-family: var(--font-sans) !important;
+  font-style: italic !important;
+  font-weight: 300 !important;
+  letter-spacing: 0.01em;
+  color: var(--accent-gold);
+}
+
+/* 4. Breathing Background Gradient */
+@keyframes breathing-glow {
+  0% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+  100% { opacity: 0.4; transform: scale(1); }
+}
+
+.hero-breathing-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vw;
+  max-width: 1200px;
+  max-height: 1200px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(196,154,82,0.06) 0%, rgba(5,5,5,0) 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: breathing-glow 10s ease-in-out infinite;
+}
+
+/* 5. Smooth Micro-Animations */
+.magnetic-btn {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+}
+.magnetic-btn:hover {
+  transform: scale(1.04) translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+html.dark .magnetic-btn:hover {
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3), 0 0 0 1px rgba(196,154,82,0.1);
+}
+
+
+html.dark body {
+  background: radial-gradient(circle at 15% 50%, rgba(196,154,82,0.06), transparent 25%),
+              radial-gradient(circle at 85% 30%, rgba(196,154,82,0.04), transparent 25%),
+              var(--bg-color);
+  background-size: 200% 200%;
+  animation: meshGlow 15s ease infinite;
+}
+
+
+html.dark .card {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+
+html.dark .panel {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+
+html.dark .admin-dashboard > .card, html.dark .admin-dashboard .card {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+
+html.dark .sidebar {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+
+.spring-hover {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease;
+}
+.spring-hover:hover {
+  transform: scale(1.02);
+}
+.spring-hover:active {
+  transform: scale(0.96) !important;
+}
+
+
+.btn, .apple-btn, .admin-action-tile {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease !important;
+}
+.btn:hover, .apple-btn:hover, .admin-action-tile:hover {
+  transform: scale(1.02);
+}
+.btn:active, .apple-btn:active, .admin-action-tile:active {
+  transform: scale(0.96) !important;
+}
+
+
+html.dark .form-input, html.dark .form-select, html.dark input[type="text"], html.dark input[type="email"], html.dark input[type="password"], html.dark textarea {
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+html.dark .form-input:focus, html.dark .form-select:focus, html.dark input:focus, html.dark textarea:focus {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 0 0 3px rgba(196,154,82,0.15) !important;
+}
+

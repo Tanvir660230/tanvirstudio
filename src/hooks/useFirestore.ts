@@ -53,6 +53,7 @@ export function useFirestore<T>(
 
   useEffect(() => {
     if (!enabled) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSnapshotData([]);
       setLoading(false);
       setError(null);

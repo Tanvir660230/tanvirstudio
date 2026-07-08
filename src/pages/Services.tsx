@@ -88,6 +88,7 @@ export function Services() {
 
   useEffect(() => {
     if (activePkgs.length > 0 && !activePkgs.find(p => p.id === nasheedPkg)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setNasheedPkg(activePkgs.find(p => p.popular)?.id || activePkgs[0].id);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

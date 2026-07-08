@@ -28,10 +28,6 @@ import {
 
 import { Spinner } from './Spinner';
 
-import jsPDF from 'jspdf';
-
-import html2canvas from 'html2canvas';
-
 import { useSettings } from '../contexts/SettingsContext';
 
 import { nextInvoiceNumber } from '../utils/invoiceCounter';
@@ -42,6 +38,10 @@ import { db } from '../lib/firebase';
 
 import { sendInvoiceEmail } from '../utils/emailApi';
 
+import { deep, accent, accentGold, accentLight, accentLine, muted, paper, ink, metaLabelStyle } from './invoice/theme';
+
+import { MetaRow, SectionLabel, ContactRow, PaymentLine, SummaryRow } from './invoice/InfoRows';
+
 
 
 interface InvoiceModalProps {
@@ -51,24 +51,6 @@ interface InvoiceModalProps {
   onClose: () => void;
 
 }
-
-
-
-const deep = '#1f1a14';
-
-const accent = '#a96d24';
-
-const accentGold = 'var(--accent-gold)';
-
-const accentLight = '#f8f0e2';
-
-const accentLine = '#eadcc8';
-
-const muted = '#6b7280';
-
-const paper = 'var(--card-bg)';
-
-const ink = '#111111';
 
 
 
@@ -327,7 +309,7 @@ export function InvoiceModal({ task, onClose }: InvoiceModalProps) {
       el.style.maxWidth = '794px';
 
 
-
+      const { default: html2canvas } = await import('html2canvas');
       const canvas = await html2canvas(el, {
 
         scale: 1.5,
@@ -371,7 +353,7 @@ export function InvoiceModal({ task, onClose }: InvoiceModalProps) {
       const pageW = 210;
 
       const imgH = (canvas.height * pageW) / canvas.width;
-
+      const { default: jsPDF } = await import('jspdf');
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [pageW, imgH] });
 
       pdf.addImage(imgData, 'JPEG', 0, 0, pageW, imgH);
@@ -987,122 +969,6 @@ export function InvoiceModal({ task, onClose }: InvoiceModalProps) {
         </footer>
 
       </div>
-
-    </div>
-
-  );
-
-}
-
-
-
-const metaLabelStyle: React.CSSProperties = {
-
-  padding: '7px 18px 7px 0',
-
-  color: muted,
-
-  fontSize: 11,
-
-  fontWeight: 800,
-
-  letterSpacing: 0.7,
-
-  textTransform: 'uppercase',
-
-  textAlign: 'right',
-
-  whiteSpace: 'nowrap',
-
-};
-
-
-
-function MetaRow({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) {
-
-  return (
-
-    <tr>
-
-      <td style={metaLabelStyle}>{label}</td>
-
-      <td style={{ padding: '7px 0', color: deep, fontSize: strong ? 13.5 : 13, fontWeight: strong ? 900 : 700, textAlign: 'right', whiteSpace: 'nowrap' }}>{value}</td>
-
-    </tr>
-
-  );
-
-}
-
-
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-
-  return (
-
-    <div style={{ color: accent, fontSize: 11, fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1 }}>
-
-      {children}
-
-    </div>
-
-  );
-
-}
-
-
-
-function ContactRow({ icon, text }: { icon: React.ReactNode; text: string }) {
-
-  return (
-
-    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-
-      <span style={{ color: accentGold, display: 'inline-flex', marginTop: 2, flexShrink: 0 }}>{icon}</span>
-
-      <span style={{ color: muted }}>{text}</span>
-
-    </div>
-
-  );
-
-}
-
-
-
-function PaymentLine({ icon, title, detail }: { icon: React.ReactNode; title: string; detail: string }) {
-
-  return (
-
-    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-
-      <span style={{ color: accentGold, display: 'inline-flex', marginTop: 1, flexShrink: 0 }}>{icon}</span>
-
-      <div>
-
-        <div style={{ color: deep, fontWeight: 800 }}>{title}</div>
-
-        <div style={{ color: muted, fontWeight: 700, marginTop: 3, fontVariantNumeric: 'tabular-nums' }}>{detail}</div>
-
-      </div>
-
-    </div>
-
-  );
-
-}
-
-
-
-function SummaryRow({ label, value, valueColor = deep }: { label: string; value: string; valueColor?: string }) {
-
-  return (
-
-    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 18, padding: '8px 0', fontSize: 13.5 }}>
-
-      <span style={{ color: muted, fontWeight: 700 }}>{label}</span>
-
-      <span style={{ color: valueColor, fontWeight: 900, fontVariantNumeric: 'tabular-nums' }}>{value}</span>
 
     </div>
 

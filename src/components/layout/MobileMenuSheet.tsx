@@ -29,7 +29,7 @@ export function MobileMenuSheet({
   onThemeToggle,
   onEditProfile,
   onLogout,
-}: MobileMenuSheetProps) {
+}: MobileMenuSheetProps): React.JSX.Element | null {
   const location = useLocation();
 
   const navLinks = [
@@ -92,6 +92,9 @@ export function MobileMenuSheet({
             </div>
 
             {/* Nav links */}
+            <div style={{ padding: '0 16px 4px', fontSize: 11, fontWeight: 700, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+              Workspace
+            </div>
             <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
               {navLinks.map(item => {
                 const isActive = location.pathname === item.path;
@@ -115,6 +118,9 @@ export function MobileMenuSheet({
             <div style={{ height: 1, background: 'var(--border-color)', margin: '12px 16px' }} />
 
             {/* Actions */}
+            <div style={{ padding: '0 16px 4px', fontSize: 11, fontWeight: 700, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+              Account
+            </div>
             <div style={{ padding: '0 16px 4px' }}>
               <button
                 onClick={onThemeToggle}

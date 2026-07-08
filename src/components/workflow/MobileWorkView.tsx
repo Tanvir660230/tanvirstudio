@@ -11,6 +11,14 @@ import {
   closestCenter,
 } from '@dnd-kit/core';
 import type { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
+import { WorkProcessToolbar } from './WorkProcessToolbar';
+
+interface WorkerLike {
+  uid?: string;
+  id?: string;
+  name?: string;
+  displayName?: string;
+}
 
 interface MobileWorkViewProps {
   columns: Array<{ id: string; title: string; color: string; icon: React.ReactNode }>;
@@ -25,6 +33,15 @@ interface MobileWorkViewProps {
   onTaskMove: (taskId: string, newStageId: string) => void;
   userRole?: string;
   currency?: string;
+  stageSort: 'deadline' | 'dateAdded' | 'priority';
+  setStageSort: (v: 'deadline' | 'dateAdded' | 'priority') => void;
+  stageFilter: 'all' | 'paid' | 'unpaid';
+  setStageFilter: (v: 'all' | 'paid' | 'unpaid') => void;
+  workerFilter: string;
+  setWorkerFilter: (v: string) => void;
+  composers: WorkerLike[];
+  hummingArtists: WorkerLike[];
+  isAdmin: boolean;
 }
 
 /* ─── Draggable Task Card ─── */
@@ -294,6 +311,8 @@ export function MobileWorkView({
   columns, filteredTasks, isArchiveReady, viewMode, setViewMode,
   searchQuery, setSearchQuery, openDetails, handleOpenModal,
   onTaskMove, userRole, currency = '৳',
+  stageSort, setStageSort, stageFilter, setStageFilter,
+  workerFilter, setWorkerFilter, composers, hummingArtists, isAdmin,
 }: MobileWorkViewProps) {
   const [expandedStage, setExpandedStage] = useState<string | null>('recording');
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -306,6 +325,20 @@ export function MobileWorkView({
   const now = new Date();
   const archiveTasks = filteredTasks.filter((t: any) => isArchiveReady(t));
   const activeTask = activeId ? filteredTasks.find((t: any) => t.id === activeId) : null;
+
+  const matchesFilters = (t: any) => {
+    if (stageFilter !== 'all') {
+      const b = Number(t.budget) || 0;
+      const p = (t.payments || []).reduce((s: number, x: any) => s + (Number(x.amount) || 0), 0);
+      const isPaid = b > 0 && p >= b;
+      if (stageFilter === 'paid' && !isPaid) return false;
+      if (stageFilter === 'unpaid' && isPaid) return false;
+    }
+    if (workerFilter !== 'all' && t.composerId !== workerFilter && t.hummingArtistId !== workerFilter) return false;
+    return true;
+  };
+  const allActiveTasks = filteredTasks.filter((t: any) => !isArchiveReady(t));
+  const globalFilteredCount = allActiveTasks.filter(matchesFilters).length;
 
   const handleDragStart = (e: DragStartEvent) => {
     if (userRole === 'client') return;
@@ -381,6 +414,24 @@ export function MobileWorkView({
           ))}
         </div>
 
+        {/* Sort + Filter */}
+        {viewMode === 'active' && (
+          <WorkProcessToolbar
+            stageSort={stageSort}
+            setStageSort={setStageSort}
+            stageFilter={stageFilter}
+            setStageFilter={setStageFilter}
+            workerFilter={workerFilter}
+            setWorkerFilter={setWorkerFilter}
+            composers={composers}
+            hummingArtists={hummingArtists}
+            isAdmin={isAdmin}
+            sortedCount={globalFilteredCount}
+            stageTasksCount={allActiveTasks.length}
+            showBulkTools={false}
+          />
+        )}
+
         {/* Drag hint */}
         {activeId && (
           <div style={{
@@ -406,7 +457,34 @@ export function MobileWorkView({
         {viewMode === 'active' ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {columns.map(col => {
-              const stageTasks = filteredTasks.filter((t: any) => t.status === col.id && !isArchiveReady(t));
+              let stageTasks = filteredTasks.filter((t: any) => t.status === col.id && !isArchiveReady(t) && matchesFilters(t));
+
+              stageTasks = [...stageTasks].sort((a: any, b: any) => {
+                if (col.id === 'recording') {
+                  if (a.recordingDate && b.recordingDate) return new Date(a.recordingDate).getTime() - new Date(b.recordingDate).getTime();
+                  if (a.recordingDate) return -1;
+                  if (b.recordingDate) return 1;
+                }
+                if (stageSort === 'deadline') {
+                  if (a.deliveryDate && b.deliveryDate) return new Date(a.deliveryDate).getTime() - new Date(b.deliveryDate).getTime();
+                  if (a.deliveryDate) return -1;
+                  if (b.deliveryDate) return 1;
+                  return 0;
+                }
+                if (stageSort === 'priority') {
+                  const urgScore = (t: any) => {
+                    if (!t.deliveryDate) return 99;
+                    const d = Math.ceil((new Date(t.deliveryDate).getTime() - Date.now()) / 86400000);
+                    if (d < 0) return 0;
+                    if (d === 0) return 1;
+                    if (d <= 3) return 2;
+                    return 3;
+                  };
+                  return urgScore(a) - urgScore(b);
+                }
+                return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+              });
+
               const overdueCount = stageTasks.filter((t: any) =>
                 t.deliveryDate && new Date(t.deliveryDate) < now && t.status !== 'completed' && t.status !== 'delivered'
               ).length;

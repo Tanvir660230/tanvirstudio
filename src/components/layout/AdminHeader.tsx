@@ -215,6 +215,7 @@ export function AdminHeader({
                 <Search size={15} strokeWidth={2} color={isSearchFocused ? 'var(--accent-gold)' : 'var(--text-tertiary)'} style={{ flexShrink: 0 }} />
                 <input
                   ref={searchRef}
+                  aria-label="Search"
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}
@@ -225,7 +226,7 @@ export function AdminHeader({
                   style={{ flex: 1, fontSize: 13, color: 'var(--text-primary)', fontWeight: 500, fontFamily: 'inherit' }}
                 />
                 {searchQuery && (
-                  <div onClick={() => setSearchQuery('')} style={{ cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', flexShrink: 0 }}>
+                  <div role="button" aria-label="Clear search" onClick={() => setSearchQuery('')} style={{ cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', flexShrink: 0 }}>
                     <X size={13} />
                   </div>
                 )}
@@ -251,6 +252,7 @@ export function AdminHeader({
             {/* Mobile bell */}
             <motion.button
               whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.92 }}
+              aria-label="Notifications"
               onClick={() => { setShowNotifications(p => { if (!p && unreadCount > 0) markAllRead(); return !p; }); }}
               style={{ position: 'relative', flexShrink: 0, width: 36, height: 36, marginRight: 10, borderRadius: 9, background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}
             >
@@ -272,6 +274,7 @@ export function AdminHeader({
                   <Search size={15} strokeWidth={2} color={isSearchFocused ? 'var(--accent-gold)' : 'var(--text-tertiary)'} style={{ flexShrink: 0, opacity: isSearchFocused ? 1 : 0.5, transition: 'all 0.2s', cursor: 'pointer' }} onClick={() => searchRef.current?.focus()} />
                   <input
                     ref={searchRef}
+                    aria-label="Search"
                     type="text"
                     placeholder="Search projects, clients, transactions..."
                     value={searchQuery}
@@ -282,7 +285,7 @@ export function AdminHeader({
                     style={{ flex: 1, fontSize: 13.5, color: 'var(--text-primary)', fontWeight: 400, fontFamily: 'inherit', lineHeight: 1, letterSpacing: '0.05px' }}
                   />
                   {searchQuery ? (
-                    <div onClick={() => { setSearchQuery(''); searchRef.current?.focus(); }} style={{ cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', flexShrink: 0, opacity: 0.5 }}>
+                    <div role="button" aria-label="Clear search" onClick={() => { setSearchQuery(''); searchRef.current?.focus(); }} style={{ cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', flexShrink: 0, opacity: 0.5 }}>
                       <X size={13} />
                     </div>
                   ) : (
@@ -323,6 +326,7 @@ export function AdminHeader({
                   whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.92 }}
                   onClick={() => setShowQuickMenu(p => !p)}
                   title="Quick create"
+                  aria-label="Quick create"
                   style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: 9, background: showQuickMenu ? 'rgba(196,154,82,0.1)' : 'transparent', border: `1px solid ${showQuickMenu ? 'rgba(196,154,82,0.3)' : 'transparent'}`, color: showQuickMenu ? 'var(--accent-gold)' : 'var(--text-secondary)', transition: 'all 0.15s ease' }}
                 >
                   <Plus size={18} strokeWidth={1.8} />
@@ -363,6 +367,8 @@ export function AdminHeader({
               {/* Notification bell */}
               <div ref={notifContainerRef} style={{ position: 'relative', zIndex: 111 }}>
                 <motion.div
+                  role="button"
+                  aria-label="Notifications"
                   whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.92 }}
                   style={{ cursor: 'pointer', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: 9, background: showNotifications ? 'rgba(196,154,82,0.1)' : 'transparent', border: `1px solid ${showNotifications ? 'rgba(196,154,82,0.3)' : 'transparent'}`, transition: 'all 0.15s ease', color: showNotifications ? 'var(--accent-gold)' : 'var(--text-secondary)' }}
                   onClick={() => { setShowNotifications(p => { if (!p && unreadCount > 0) markAllRead(); return !p; }); }}
@@ -454,7 +460,7 @@ export function AdminHeader({
                       Clear All
                     </button>
                   )}
-                  <button onClick={() => setShowNotifications(false)} style={{ width: 28, height: 28, borderRadius: 8, border: '1px solid var(--border-color)', background: 'var(--bg-color)', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                  <button aria-label="Close notifications" onClick={() => setShowNotifications(false)} style={{ width: 28, height: 28, borderRadius: 8, border: '1px solid var(--border-color)', background: 'var(--bg-color)', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
                     <X size={14} />
                   </button>
                 </div>

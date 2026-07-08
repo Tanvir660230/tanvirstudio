@@ -232,7 +232,7 @@ export function BookingsAdmin() {
 
       {/* Grid */}
 
-      <div style={{ display: 'grid', gridTemplateColumns: selected ? '1fr 360px' : '1fr', gap: 16 }}>
+      <div className="split-pane-detail" style={{ display: 'grid', gridTemplateColumns: selected ? '1fr 360px' : '1fr', gap: 16 }}>
 
         {/* List */}
 

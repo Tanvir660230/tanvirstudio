@@ -91,7 +91,12 @@ export function Analytics() {
     e.preventDefault();
     setPayModal(p => ({ ...p, loading: true }));
     try {
-      await atomicPayWorker(payModal.workerId, payModal.amount, payModal.method, payModal.date, userData?.name || 'Admin', null);
+      await atomicPayWorker(
+        { title: `Worker Payment`, type: 'out', amount: payModal.amount, category: 'Worker Payment', date: payModal.date },
+        { workerId: payModal.workerId, amount: payModal.amount, method: payModal.method, date: payModal.date },
+        [],
+        { name: userData?.name || 'Admin', uid: userData?.uid || '' }
+      );
       showToast('Payment successful', 'success');
       setPayModal(p => ({ ...p, isOpen: false }));
     } catch (err: any) {
@@ -105,7 +110,7 @@ export function Analytics() {
     try {
       const clientObj = clients.find((c:any) => c.name === clientName);
       if (!clientObj || !clientObj.email) throw new Error('Client email not found');
-      await sendPaymentReminder(clientObj.email, clientName, amountDue, currency, '');
+      await sendPaymentReminder(clientObj.email, clientName, 'Studio Name', 'Multiple Projects', currency, amountDue, 0);
       showToast(`Reminder sent to ${clientName}`, 'success');
     } catch (err: any) {
       showToast(err.message, 'error');
@@ -265,7 +270,7 @@ export function Analytics() {
   }, [transactions, range, customStart, customEnd]);
 
   const insights = useMemo(() => {
-    const alerts = [];
+    const alerts: any[] = [];
     if (kpis.trend > 10 && range !== 'custom') {
       alerts.push({ type: 'success', text: `Revenue is up ${kpis.trend.toFixed(1)}% vs last month.`, icon: <TrendingUp size={16} /> });
     }
@@ -291,7 +296,7 @@ export function Analytics() {
   }, [kpis, currency, range]);
 
   const smartSuggestions = useMemo(() => {
-    const suggestions = [];
+    const suggestions: any[] = [];
     
     // Profit & Growth
     if (kpis.profitMargin < 30 && kpis.thisRev > 0) {
@@ -396,7 +401,8 @@ export function Analytics() {
     URL.revokeObjectURL(url);
   }
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const renderCustomTooltip = (props: any) => {
+    const { active, payload, label } = props;
     if (active && payload && payload.length) {
       return (
         <div style={{ background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: 8, padding: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: 160, zIndex: 100 }}>
@@ -578,7 +584,7 @@ export function Analytics() {
               </defs>
               <XAxis dataKey="month" tick={{ fontSize: 12, fill: 'var(--text-tertiary)' }} axisLine={false} tickLine={false} dy={10} />
               <YAxis tick={{ fontSize: 12, fill: 'var(--text-tertiary)' }} axisLine={false} tickLine={false} tickFormatter={v => `${(v / 1000).toFixed(0)}k`} />
-              <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'var(--border-color)', strokeWidth: 1, strokeDasharray: '4 4' }} />
+              <Tooltip content={renderCustomTooltip} cursor={{ stroke: 'var(--border-color)', strokeWidth: 1, strokeDasharray: '4 4' }} />
               <Area type="monotone" dataKey="revenue" stroke="var(--color-info)" strokeWidth={2} fillOpacity={1} fill="url(#colorRev)" activeDot={{ r: 6, fill: 'var(--color-info)' }} />
               <Area type="monotone" dataKey="expense" stroke="var(--color-danger)" strokeWidth={2} fillOpacity={1} fill="url(#colorExp)" activeDot={{ r: 6, fill: 'var(--color-danger)' }} />
             </AreaChart>
@@ -587,20 +593,20 @@ export function Analytics() {
       </div>
 
       {/* Row: Expense & Top Clients */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 24, marginBottom: 24 }}>
-        
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(400px, 100%), 1fr))', gap: 24, marginBottom: 24 }}>
+
         {/* Expense Breakdown */}
         <div style={{ background: 'var(--card-bg)', borderRadius: 16, border: '1px solid var(--border-color)', padding: '24px', display: 'flex', flexDirection: 'column' }}>
           <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 24 }}>Expense Breakdown</div>
           {expenseBreakdown.length > 0 ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 32, flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 32, flex: 1, flexWrap: 'wrap' }}>
               <div style={{ width: 160, height: 160, flexShrink: 0, cursor: 'pointer' }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie data={expenseBreakdown} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={2} stroke="none" onClick={(e) => handleChartClick(e, 'category')}>
                       {expenseBreakdown.map((s, i) => <Cell key={i} fill={PALETTE[i % PALETTE.length]} style={{ cursor: 'pointer' }} />)}
                     </Pie>
-                    <Tooltip content={<CustomTooltip />} />
+                    <Tooltip content={renderCustomTooltip} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -657,7 +663,7 @@ export function Analytics() {
       </div>
 
       {/* Row: Worker Performance Actionable */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 24, marginBottom: 24 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(400px, 100%), 1fr))', gap: 24, marginBottom: 24 }}>
         
         {/* Worker Performance */}
         <div style={{ background: 'var(--card-bg)', borderRadius: 16, border: '1px solid var(--border-color)', padding: '24px', display: 'flex', flexDirection: 'column' }}>

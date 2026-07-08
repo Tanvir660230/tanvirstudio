@@ -19,7 +19,8 @@ export interface TaskActivityLog {
 
 export type TaskStatus =
   | 'recording' | 'humming' | 'composition' | 'mixing'
-  | 'mastering' | 'revision' | 'delivered' | 'completed' | 'pending';
+  | 'mastering' | 'revision' | 'delivered' | 'completed' | 'pending'
+  | 'cancelled' | 'in_progress' | 'new' | 'review' | 'declined' | string;
 
 export interface Task {
   id: string;
@@ -57,6 +58,17 @@ export interface Task {
   hummingArtistCommissionAmount?: number;
   createdAt?: FirestoreDate;
   updatedAt?: FirestoreDate;
+  comments?: any[];
+  recurrence?: string;
+  milestones?: any[];
+  declinedAt?: string;
+  orderRef?: string;
+  composerPaid?: boolean;
+  hummingArtistPaid?: boolean;
+  date?: string;
+  acceptedAt?: string;
+  clientId?: string;
+  recordingDuration?: number;
 }
 
 export interface Client {
@@ -67,14 +79,15 @@ export interface Client {
   company?: string;
   address?: string;
   notes?: string;
-  status?: 'Active' | 'Inactive';
+  status?: 'Active' | 'Inactive' | string;
   source?: string;
+  socialMedia?: string;
   createdAt?: FirestoreDate;
 }
 
 export interface Transaction {
   id: string;
-  title: string;
+  title?: string;
   type: 'in' | 'out';
   amount: number | string;
   status?: 'Pending' | 'Completed' | 'Cancelled';
@@ -85,6 +98,13 @@ export interface Transaction {
   taskId?: string;
   user?: string;
   createdAt?: FirestoreDate;
+  account?: string;
+  note?: string;
+  attachmentUrl?: string;
+  attachmentName?: string;
+  client?: string;
+  method?: string;
+  reference?: string;
 }
 
 export type UserRole = 'admin' | 'composer' | 'humming_artist' | 'client';
@@ -117,6 +137,8 @@ export interface WorkerPayment {
   method?: string;
   note?: string;
   createdAt?: FirestoreDate;
+  paidAt?: string;
+  paidBy?: string;
 }
 
 export interface MonthlyLedger {
@@ -126,17 +148,21 @@ export interface MonthlyLedger {
   lockedAt?: FirestoreDate;
   note?: string;
   createdAt?: FirestoreDate;
+  closingBalance?: number;
+  closed?: boolean;
+  month?: string;
 }
 
 export interface Note {
   id: string;
-  title: string;
+  title?: string;
   content?: string;
   color?: string;
   pinned?: boolean;
   tags?: string[];
   createdAt?: FirestoreDate;
   updatedAt?: FirestoreDate;
+  date?: string;
 }
 
 export interface Todo {
@@ -146,6 +172,8 @@ export interface Todo {
   priority?: 'low' | 'medium' | 'high';
   dueDate?: string;
   createdAt?: FirestoreDate;
+  isCompleted?: boolean;
+  userId?: string;
 }
 
 export interface Lead {
@@ -168,12 +196,17 @@ export interface Communication {
   clientName?: string;
   clientEmail?: string;
   subject?: string;
-  body: string;
+  body?: string;
+  content?: string;
+  type?: string;
   direction?: 'inbound' | 'outbound';
   channel?: 'email' | 'whatsapp' | 'phone' | 'other';
   date?: string;
   taskId?: string;
   createdAt?: FirestoreDate;
+  clientId?: string;
+  done?: boolean;
+  reminderDate?: string;
 }
 
 export interface Notification {
@@ -181,7 +214,7 @@ export interface Notification {
   recipientId: string;
   title: string;
   message: string;
-  type?: 'info' | 'success' | 'warning' | 'error';
+  type?: 'info' | 'success' | 'warning' | 'error' | 'system' | string;
   read: boolean;
   createdAt?: FirestoreDate;
   expiresAt?: FirestoreDate;
@@ -196,7 +229,7 @@ export interface Booking {
   message?: string;
   date?: string;
   time?: string;
-  status?: 'pending' | 'confirmed' | 'cancelled';
+  status?: 'pending' | 'confirmed' | 'cancelled' | 'rejected' | string;
   clientUid?: string;
   createdAt?: FirestoreDate;
 }
@@ -211,6 +244,7 @@ export interface Coupon {
   description?: string;
   expiresAt?: string;
   createdAt?: FirestoreDate;
+  active?: boolean;
 }
 
 export interface WebsiteShowcase {
@@ -221,6 +255,7 @@ export interface WebsiteShowcase {
   coverUrl?: string;
   genre?: string;
   order?: number;
+  createdAt?: FirestoreDate;
 }
 
 export interface WebsiteComparison {
@@ -230,6 +265,7 @@ export interface WebsiteComparison {
   afterUrl?: string;
   label?: string;
   order?: number;
+  createdAt?: FirestoreDate;
 }
 
 export interface WebsiteTestimonial {
@@ -240,6 +276,9 @@ export interface WebsiteTestimonial {
   rating?: number;
   photoUrl?: string;
   order?: number;
+  projectRef?: string;
+  approved?: boolean;
+  createdAt?: FirestoreDate;
 }
 
 export interface WebsitePackage {
@@ -249,6 +288,7 @@ export interface WebsitePackage {
   features?: string[];
   popular?: boolean;
   order?: number;
+  createdAt?: FirestoreDate;
 }
 
 export interface WebsiteService {
@@ -259,6 +299,13 @@ export interface WebsiteService {
   category?: string;
   slug?: string;
   order?: number;
+  desc?: string;
+  about?: string;
+  metaTitle?: string;
+  metaDesc?: string;
+  coverImage?: string;
+  createdAt?: FirestoreDate;
+  active?: boolean;
 }
 
 export interface WebsiteFaq {
@@ -266,6 +313,7 @@ export interface WebsiteFaq {
   question?: string;
   answer?: string;
   order?: number;
+  createdAt?: FirestoreDate;
 }
 
 export interface WebsiteCaseStudy {

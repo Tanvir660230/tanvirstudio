@@ -45,6 +45,7 @@ export function Home() {
   useEffect(() => {
     if (!settings.heroBgImage) return;
     localStorage.setItem('ts_has_hero', '1');
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHeroBgLoaded(false);
     const img = new Image();
     img.onload = () => setHeroBgLoaded(true);

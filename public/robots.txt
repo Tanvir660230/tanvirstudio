@@ -1,4 +1,4 @@
-﻿User-agent: *
+User-agent: *
 Allow: /
 
-Sitemap: https://tanvir.studio/sitemap.xml
+Sitemap: https://tanvirstudio.online/sitemap.xml

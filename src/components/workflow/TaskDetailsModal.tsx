@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, no-irregular-whitespace */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useRef } from 'react';
 import { Users, Calendar, Clock, Music2, Mic, MessageCircle, Plus, CheckCircle2, Send, AlertCircle, CreditCard, FileEdit, Wallet, Check, Trash2, ExternalLink, Link, FileUp, Download, Paperclip, History, ArrowRight } from 'lucide-react';
 
@@ -68,6 +68,8 @@ export function TaskDetailsModal({
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [fileError, setFileError] = useState('');
+  const [mobileTab, setMobileTab] = useState<'overview' | 'finance' | 'activity'>('overview');
+  React.useEffect(() => { setMobileTab('overview'); }, [selectedTask?.id]);
 
   const ALLOWED_MIME_PREFIXES = ['audio/', 'image/', 'video/'];
   const ALLOWED_MIME_TYPES = ['application/pdf', 'application/zip', 'application/x-zip-compressed', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
@@ -174,9 +176,22 @@ export function TaskDetailsModal({
         };
 
         return (
-          <div className="task-details-modal-layout" style={{ display: 'flex', height: '100%', background: 'var(--bg-color)', overflow: 'hidden' }}>
+          <div className="task-details-modal-layout" data-tab={mobileTab} style={{ display: 'flex', height: '100%', background: 'var(--bg-color)', overflow: 'hidden' }}>
+            {/* ─── Mobile section tabs ─── */}
+            <div className="td-mobile-tabs mobile-only">
+              {(['overview', 'finance', 'activity'] as const).map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setMobileTab(tab)}
+                  className={mobileTab === tab ? 'active' : ''}
+                >
+                  {tab === 'overview' ? 'Overview' : tab === 'finance' ? 'Finance' : 'Activity'}
+                </button>
+              ))}
+            </div>
+
             {/* ─── LEFT SIDEBAR (Metadata) ─── */}
-            <div className="task-details-sidebar" style={{ width: '360px', flexShrink: 0, background: 'var(--card-bg)', borderRight: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', height: '100%', zIndex: 10 }}>
+            <div className="task-details-sidebar td-tab-overview" style={{ width: '360px', flexShrink: 0, background: 'var(--card-bg)', borderRight: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', height: '100%', zIndex: 10 }}>
               <div style={{ padding: '36px 32px 24px', borderBottom: '1px solid var(--border-color)', background: 'linear-gradient(180deg, var(--bg-color) 0%, var(--card-bg) 100%)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
                   <span style={{ fontSize: 11, fontWeight: 900, color: 'white', background: columns.find((c: any) => c.id === selectedTask.status)?.color || '#8E8E93', padding: '4px 12px', borderRadius: 8, textTransform: 'uppercase', letterSpacing: '0.8px' }}>
@@ -302,7 +317,7 @@ export function TaskDetailsModal({
 
               {/* Action Bar */}
               {userData?.role !== 'client' && (
-                <div style={{ padding: '24px 36px', background: 'var(--card-bg)', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', flexShrink: 0, zIndex: 5, boxShadow: 'none' }}>
+                <div className="td-tab-overview" style={{ padding: '24px 36px', background: 'var(--card-bg)', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', flexShrink: 0, zIndex: 5, boxShadow: 'none' }}>
                   {selectedTask.status === 'recording' && userData?.role === 'admin' && (
                     <button onClick={() => handleStatusChange('arrangement')} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', borderRadius: 8, background: 'var(--accent-purple)', color: 'white', border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, transition: 'opacity 0.12s' }}>
                       <Clock size={16} strokeWidth={2.5} /> Start Arrangement
@@ -357,14 +372,14 @@ export function TaskDetailsModal({
 
                 {/* Finance Block */}
                 {canManageProject && (
-                  <div className="task-finance-grid" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 24 }}>
+                  <div className="task-finance-grid td-tab-finance" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 24 }}>
                     <div style={{ background: 'var(--card-bg)', borderRadius: 12, border: '1px solid var(--border-color)', overflow: 'hidden' }}>
                       <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: 8, background: 'var(--card-bg)' }}>
                         <Wallet size={16} color="var(--text-tertiary)" />
                         <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>Client Collection</span>
                       </div>
                       <div style={{ padding: '16px 20px' }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
+                        <div className="task-finance-stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
                           {[
                             { label: 'Budget', value: budgetNum, color: 'var(--text-primary)', bg: 'var(--bg-color)', border: 'var(--border-color)' },
                             { label: 'Received', value: totalPaid, color: 'var(--color-success)', bg: '#34C75908', border: 'rgba(52,199,89,0.15)' },
@@ -471,7 +486,7 @@ export function TaskDetailsModal({
 
                 {/* Milestones & Chat Block */}
                 <div className="task-chat-grid" style={{ display: 'grid', gridTemplateColumns: userData?.role !== 'client' ? '1fr 1fr' : '1fr', gap: 24 }}>
-                  <div style={{ background: 'var(--card-bg)', borderRadius: 12, border: '1px solid var(--border-color)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                  <div className="td-tab-finance" style={{ background: 'var(--card-bg)', borderRadius: 12, border: '1px solid var(--border-color)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                     <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: 8, background: 'var(--card-bg)' }}>
                       <CheckCircle2 size={16} color="var(--text-tertiary)" />
                       <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>Execution Milestones</span>
@@ -505,7 +520,7 @@ export function TaskDetailsModal({
                   </div>
 
                   {userData?.role !== 'client' && (
-                    <div style={{ background: 'var(--card-bg)', borderRadius: 12, border: '1px solid var(--border-color)', overflow: 'hidden', display: 'flex', flexDirection: 'column', minHeight: 450 }}>
+                    <div className="td-tab-activity" style={{ background: 'var(--card-bg)', borderRadius: 12, border: '1px solid var(--border-color)', overflow: 'hidden', display: 'flex', flexDirection: 'column', minHeight: 450 }}>
                     <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: 8, background: 'var(--card-bg)' }}>
                       <MessageCircle size={16} color="var(--text-tertiary)" />
                       <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>Internal Discussion</span>
@@ -558,7 +573,7 @@ export function TaskDetailsModal({
                 </div>
 
                 {/* Assets & Files Block */}
-                <div style={{ background: 'var(--card-bg)', borderRadius: 24, border: '1px solid var(--border-color)', boxShadow: 'none', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <div className="td-tab-activity" style={{ background: 'var(--card-bg)', borderRadius: 24, border: '1px solid var(--border-color)', boxShadow: 'none', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                   <div style={{ padding: '20px 28px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: 12, background: 'linear-gradient(to bottom, var(--bg-color), transparent)' }}>
                     <div style={{ background: '#AF52DE20', width: 34, height: 34, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <Paperclip size={18} color="var(--accent-purple)" />
@@ -640,7 +655,7 @@ export function TaskDetailsModal({
 
                 {/* Activity Log */}
                 {selectedTask.activityLog && selectedTask.activityLog.length > 0 && (
-                  <div style={{ background: 'var(--card-bg)', borderRadius: 24, border: '1px solid var(--border-color)', overflow: 'hidden' }}>
+                  <div className="td-tab-activity" style={{ background: 'var(--card-bg)', borderRadius: 24, border: '1px solid var(--border-color)', overflow: 'hidden' }}>
                     <div style={{ padding: '20px 28px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: 12, background: 'linear-gradient(to bottom, var(--bg-color), transparent)' }}>
                       <div style={{ background: 'rgba(0,122,255,0.12)', width: 34, height: 34, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <History size={18} color="var(--color-info)" />
@@ -695,7 +710,7 @@ export function TaskDetailsModal({
                   const pendingRevisions = revisions.filter((r: any) => r.status === 'pending');
                   const usedRevisions = revisions.length;
                   return (
-                    <div style={{ background: 'var(--card-bg)', borderRadius: 24, border: '1px solid var(--border-color)', overflow: 'hidden' }}>
+                    <div className="td-tab-activity" style={{ background: 'var(--card-bg)', borderRadius: 24, border: '1px solid var(--border-color)', overflow: 'hidden' }}>
                       <div style={{ padding: '20px 28px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: 12 }}>
                         <div style={{ background: 'rgba(255,149,0,0.12)', width: 34, height: 34, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           <FileEdit size={18} color="var(--color-warning)" />
@@ -751,7 +766,7 @@ export function TaskDetailsModal({
                 {(() => {
                   const versions: any[] = selectedTask.deliveryVersions || [];
                   return (
-                    <div style={{ background: 'var(--card-bg)', borderRadius: 24, border: '1px solid var(--border-color)', overflow: 'hidden' }}>
+                    <div className="td-tab-activity" style={{ background: 'var(--card-bg)', borderRadius: 24, border: '1px solid var(--border-color)', overflow: 'hidden' }}>
                       <div style={{ padding: '20px 28px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: 12 }}>
                         <div style={{ background: 'rgba(0,122,255,0.12)', width: 34, height: 34, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           <FileUp size={18} color="var(--color-info)" />
@@ -793,7 +808,7 @@ export function TaskDetailsModal({
                   const totalMin = entries.reduce((s: number, e: any) => s + (Number(e.minutes) || 0), 0);
                   const h = Math.floor(totalMin / 60), m = totalMin % 60;
                   return (
-                    <div style={{ background: 'var(--card-bg)', borderRadius: 24, border: '1px solid var(--border-color)', overflow: 'hidden' }}>
+                    <div className="td-tab-activity" style={{ background: 'var(--card-bg)', borderRadius: 24, border: '1px solid var(--border-color)', overflow: 'hidden' }}>
                       <div style={{ padding: '20px 28px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: 12 }}>
                         <div style={{ background: 'rgba(88,86,214,0.12)', width: 34, height: 34, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           <Clock size={18} color="var(--accent-purple, #5856d6)" />
@@ -834,7 +849,7 @@ export function TaskDetailsModal({
                 {['delivered', 'completed'].includes(selectedTask.status) && (() => {
                   const rating = selectedTask.satisfactionRating || 0;
                   return (
-                    <div style={{ background: 'var(--card-bg)', borderRadius: 24, border: '1px solid var(--border-color)', padding: '20px 28px' }}>
+                    <div className="td-tab-activity" style={{ background: 'var(--card-bg)', borderRadius: 24, border: '1px solid var(--border-color)', padding: '20px 28px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
                         <div style={{ background: 'rgba(255,214,0,0.15)', width: 34, height: 34, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           <span style={{ fontSize: 18 }}>⭐</span>
@@ -861,8 +876,8 @@ export function TaskDetailsModal({
 
                 {/* Danger Zone */}
                 {userData?.role === 'admin' && (
-                  <div style={{ marginTop: 8, padding: '24px 32px', borderRadius: 20, border: `1px solid ${isConfirmingDelete ? 'rgba(255,59,48,0.4)' : 'rgba(255,59,48,0.2)'}`, background: isConfirmingDelete ? 'rgba(255,59,48,0.06)' : 'rgba(255,59,48,0.03)', transition: 'all 0.25s' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div className="td-tab-activity" style={{ marginTop: 8, padding: '24px 32px', borderRadius: 20, border: `1px solid ${isConfirmingDelete ? 'rgba(255,59,48,0.4)' : 'rgba(255,59,48,0.2)'}`, background: isConfirmingDelete ? 'rgba(255,59,48,0.06)' : 'rgba(255,59,48,0.03)', transition: 'all 0.25s' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
                       <div>
                         <span style={{ fontSize: 16, fontWeight: 800, color: isConfirmingDelete ? 'var(--color-danger)' : 'var(--text-primary)', display: 'block', marginBottom: 4, transition: 'color 0.2s' }}>Danger Zone</span>
                         <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-tertiary)' }}>

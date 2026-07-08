@@ -38,6 +38,7 @@ import { AppSidebar } from './components/layout/AppSidebar';
 import { AdminHeader } from './components/layout/AdminHeader';
 import { MobileTabBar } from './components/layout/MobileTabBar';
 import { MobileMenuSheet } from './components/layout/MobileMenuSheet';
+import { MobileQuickCreateFab } from './components/layout/MobileQuickCreateFab';
 import { QuickCreateModals } from './components/layout/QuickCreateModals';
 import type { Task, Booking } from './types';
 
@@ -266,10 +267,10 @@ export default function App() {
   const openProfileModal = () => {
     setProfileForm({
       name: userData?.name || '',
-      phone: (userData as Record<string, string>)?.phone || '',
-      bio: (userData as Record<string, string>)?.bio || '',
+      phone: (userData as any)?.phone || '',
+      bio: (userData as any)?.bio || '',
     });
-    setProfileAvatar((userData as Record<string, string>)?.photoURL || null);
+    setProfileAvatar((userData as any)?.photoURL || null);
     setProfileAvatarFile(null);
     setShowProfileModal(true);
   };
@@ -293,7 +294,7 @@ export default function App() {
     if (!user || !userData) return;
     setProfileSaving(true);
     try {
-      let photoURL: string | null = (userData as Record<string, string>)?.photoURL || null;
+      let photoURL: string | null = (userData as any)?.photoURL || null;
       if (profileAvatarFile) photoURL = await uploadAvatarToStorage(userData.uid, profileAvatarFile);
       await updateDoc(doc(db, 'users', userData.uid), {
         name: profileForm.name.trim() || userData.name,
@@ -446,7 +447,7 @@ export default function App() {
         isSidebarOpen={isSidebarOpen}
         isMobile={isMobile}
         theme={theme}
-        searchRef={searchRef}
+        searchRef={searchRef as any}
         onNewProject={() => setShowNewProjectModal(true)}
         onNewInvoice={() => setShowInvoiceModal(true)}
         onNewClient={() => setShowAddClientModal(true)}
@@ -518,16 +519,27 @@ export default function App() {
         />
       )}
 
+      {/* Mobile quick-create FAB */}
+      {isMobile && userData?.role !== 'client' && (
+        <MobileQuickCreateFab
+          onNewProject={() => setShowNewProjectModal(true)}
+          onNewInvoice={() => setShowInvoiceModal(true)}
+          onNewClient={() => setShowAddClientModal(true)}
+        />
+      )}
+
       {/* Mobile more sheet */}
-      <MobileMenuSheet
-        show={showMobileMenu}
-        onClose={() => setShowMobileMenu(false)}
-        theme={theme}
-        userData={userData}
-        onThemeToggle={handleThemeToggle}
-        onEditProfile={() => { setShowMobileMenu(false); openProfileModal(); }}
-        onLogout={() => { setShowMobileMenu(false); setShowLogoutConfirm(true); }}
-      />
+      { (
+        <MobileMenuSheet
+          show={showMobileMenu}
+          onClose={() => setShowMobileMenu(false)}
+          theme={theme}
+          userData={userData as any}
+          onThemeToggle={handleThemeToggle}
+          onEditProfile={() => { setShowMobileMenu(false); openProfileModal(); }}
+          onLogout={() => { setShowMobileMenu(false); setShowLogoutConfirm(true); }}
+        />
+      ) as any }
 
       {/* Dialogs & panels */}
       <LogoutConfirmDialog show={showLogoutConfirm} onClose={() => setShowLogoutConfirm(false)} onConfirm={handleLogout} />
@@ -538,7 +550,7 @@ export default function App() {
         profileForm={profileForm}
         setProfileForm={setProfileForm}
         profileAvatar={profileAvatar}
-        userData={userData}
+        userData={userData as any}
         avatarInputRef={avatarInputRef}
         handleAvatarChange={handleAvatarChange}
         handleProfileSave={handleProfileSave}

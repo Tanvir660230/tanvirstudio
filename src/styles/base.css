@@ -1,0 +1,333 @@
+/* â”€â”€ Premium Apple-Style Utilities â”€â”€ */
+.apple-panel {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03);
+}
+
+.apple-hover {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+.apple-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.apple-text-highlight {
+  color: var(--text-primary);
+  font-weight: 800;
+}
+
+.public-layout {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+
+
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.01em;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* â”€â”€ Typography â”€â”€ */
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv01', 'cv03', 'cv04', 'cv11';
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-fast {
+  background: linear-gradient(90deg, var(--surface-1) 0%, var(--surface-2) 50%, var(--surface-1) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 8px;
+}
+.apple-h1 {
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  color: var(--text-primary);
+}
+
+.apple-h2 {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.apple-h3 {
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+.apple-subtitle {
+  font-size: clamp(17px, 2.5vw, 24px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+/* â”€â”€ Apple Bento Grid â”€â”€ */
+.bento-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.bento-item {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 40px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.dark .bento-item {
+  box-shadow: none;
+}
+
+.bento-item:hover {
+  transform: scale(1.01);
+  box-shadow: none;
+}
+
+/* â”€â”€ Glassmorphism â”€â”€ */
+.apple-glass {
+  background: rgba(251, 251, 253, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border-color);
+}
+
+html.dark .apple-glass {
+  background: rgba(0, 0, 0, 0.72);
+}
+
+/* â”€â”€ Buttons â”€â”€ */
+/* !important on background/color: a later "DARK MODE FIXES" rule
+   (html.dark button:not([class*='btn-primary'])) forces color: var(--text-primary)
+   on every button lacking "btn-primary" in its class list, which would otherwise
+   collide with this rule's own inverted background and make the text invisible. */
+.apple-btn {
+  background: var(--text-primary) !important;
+  color: var(--bg-color) !important;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
+  letter-spacing: -0.01em;
+}
+
+.apple-btn:hover {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
+.apple-btn-secondary {
+  background: var(--surface-1);
+  color: var(--text-primary);
+}
+
+/* â”€â”€ Global focus-visible styles (keyboard accessibility) â”€â”€ */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--accent-gold-light);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--accent-gold-light);
+  outline-offset: 3px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 4px var(--accent-gold-deep);
+}
+
+/* Skip link focus */
+#skip-to-content:focus-visible {
+  outline: 3px solid var(--accent-gold-light);
+  outline-offset: 2px;
+}
+
+a, button, [role="button"], input, select, textarea, label {
+  touch-action: manipulation;
+}
+
+/* â”€â”€ Global touch-device active states (replaces JS touch handlers) â”€â”€ */
+@media (pointer: coarse) {
+  button:active, a:active, [role="button"]:active {
+    opacity: 0.72 !important;
+    transition: opacity 0.08s ease !important;
+  }
+  .btn:active {
+    opacity: 0.78 !important;
+    transform: scale(0.97) !important;
+    transition: opacity 0.08s ease, transform 0.08s ease !important;
+  }
+  .hover-row:active, .client-row:active {
+    opacity: 0.85 !important;
+    background-color: var(--surface-1) !important;
+  }
+  .mobile-tab-item:active {
+    opacity: 0.6 !important;
+  }
+  .fb-circle-btn:active {
+    opacity: 0.6 !important;
+  }
+}
+
+/* â”€â”€ Prevent pull-to-refresh & overscroll bounce interfering with scroll â”€â”€ */
+
+/* Remove number input spin arrows */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(196,154,82,0.2);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(196,154,82,0.45);
+}
+
+::selection {
+  background: var(--accent-gold-glow);
+  color: var(--accent-gold);
+}
+html.dark ::selection {
+  background: var(--accent-gold-deep);
+  color: #fff;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.5;
+  transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 100vh;
+  font-size: var(--text-base);
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Clip horizontal overflow inside the app without touching the document scroll root.
+   Do NOT put overflow-x:hidden on body or html â€” on iOS Safari that breaks vertical scroll. */
+#root {
+  overflow-x: hidden;
+}
+
+.dot-grid { display: none; }
+.ambient-glow { display: none; }
+
+/* Utilities */
+.glass {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow-xs);
+  padding: var(--space-4);
+  border: 1px solid var(--border-color);
+  transition: border-color 0.2s ease, box-shadow 0.25s ease, transform 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+html.dark .card {
+  box-shadow: var(--shadow-xs);
+}
+
+.card:hover {
+  border-color: rgba(196, 154, 82, 0.25);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+html.dark .card:hover {
+  border-color: rgba(196, 154, 82, 0.2);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Panel â€” flat version of card, no hover */
+.panel {
+  background: var(--card-bg);
+  border-radius: 14px;
+  box-shadow: none;
+  padding: var(--space-5);
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.custom-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+

@@ -286,9 +286,11 @@ export function Notes() {
 
                {colors.map(c => (
 
-                 <button 
+                 <button
 
-                    key={c.id} 
+                    key={c.id}
+
+                    className="note-color-swatch"
 
                     onClick={() => setSelectedColor(c.id)}
 
@@ -414,7 +416,7 @@ export function Notes() {
 
                        ) : (
 
-                         <button onClick={() => startEdit(note)} className="btn" title="Edit note" style={{ background: 'transparent', padding: '6px', borderRadius: '8px', color: 'var(--text-tertiary)', border: 'none', cursor: 'pointer' }}>
+                         <button onClick={() => startEdit(note)} className="btn btn-icon" title="Edit note" style={{ background: 'transparent', padding: '6px', borderRadius: '8px', color: 'var(--text-tertiary)', border: 'none', cursor: 'pointer' }}>
 
                            <Edit2 size={14} />
 
@@ -426,7 +428,7 @@ export function Notes() {
 
                           onClick={() => togglePin(note)}
 
-                          className="btn"
+                          className="btn btn-icon"
 
                           title={note.pinned ? 'Unpin' : 'Pin to top'}
 
@@ -442,7 +444,7 @@ export function Notes() {
 
                           onClick={() => deleteNote(note.id)}
 
-                          className="btn"
+                          className="btn btn-icon"
 
                           style={{ background: 'rgba(255,59,48,0.05)', padding: '6px', borderRadius: '8px', color: 'var(--accent-red)', border: 'none', cursor: 'pointer' }}
 

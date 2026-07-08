@@ -16,8 +16,6 @@ import {
   Smartphone,
 } from 'lucide-react';
 import { Spinner } from './Spinner';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import { useSettings } from '../contexts/SettingsContext';
 import { nextInvoiceNumber } from '../utils/invoiceCounter';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -150,6 +148,7 @@ export function ClientInvoiceModal({ client, tasks, onClose }: ClientInvoiceModa
       el.style.width = '794px';
       el.style.maxWidth = '794px';
 
+      const { default: html2canvas } = await import('html2canvas');
       const canvas = await html2canvas(el, {
         scale: 1.5,
         useCORS: true,
@@ -179,6 +178,7 @@ export function ClientInvoiceModal({ client, tasks, onClose }: ClientInvoiceModa
       const imgData = canvas.toDataURL('image/jpeg', 0.92);
       const pageW = 210;
       const imgH = (canvas.height * pageW) / canvas.width;
+      const { default: jsPDF } = await import('jspdf');
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [pageW, imgH] });
       pdf.addImage(imgData, 'JPEG', 0, 0, pageW, imgH);
 

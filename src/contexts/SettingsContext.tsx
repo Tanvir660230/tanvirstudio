@@ -6,6 +6,7 @@ import { populateEmailJSSettings } from '../utils/emailApi';
 
 interface GlobalSettings {
   currency: string;
+  fontFamily?: string;
   studioName: string;
   studioLogo: string;
   studioAddress: string;

@@ -52,10 +52,10 @@ export function ClientPortal() {
         category: 'Services',
         amount: Number(amount),
         method: 'bKash',
-        status: 'pending',
+        status: 'Pending',
         reference: trxId,
         taskId: paymentTask.id,
-        notes: `Submitted by client ${userData?.name}`
+        note: `Submitted by client ${userData?.name}`
       });
       setPaymentStatus('success');
       setTimeout(() => {
@@ -106,7 +106,7 @@ export function ClientPortal() {
   const completedCount = myTasks.filter(t => t.status === 'completed' || t.status === 'delivered').length;
 
   return (
-    <div style={{ padding: '32px 24px', maxWidth: 1200, margin: '0 auto', fontFamily: font }}>
+    <div className="client-portal-page" style={{ padding: '32px 24px', maxWidth: 1200, margin: '0 auto', fontFamily: font }}>
       <SEO title="Client Portal | Tanvir Studio" />
       {showToast && <Toast message={toastMsg} type={toastType} onClose={() => setShowToast(false)} />}
 
@@ -203,7 +203,7 @@ export function ClientPortal() {
           <p style={{ color: 'var(--text-secondary)' }}>You don't have any active or past projects with us yet.</p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(320px, 100%), 1fr))', gap: 20 }}>
           {myTasks.map((task: Task, i: number) => {
             const isDone = task.status === 'completed' || task.status === 'delivered';
             const statusColor = isDone ? '#34d18a' : (task.status === 'in_progress' ? '#5b9fff' : 'var(--accent-gold)');

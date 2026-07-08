@@ -182,7 +182,7 @@ export function Notifications() {
 
         </div>
 
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <div className="toolbar-row" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
 
           {unreadCount > 0 && (
 

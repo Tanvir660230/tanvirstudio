@@ -87,6 +87,7 @@ export function Booking() {
     if (selectedDateTime) {
       const d = selectedDateTime.toISOString().split('T')[0];
       const t = selectedDateTime.toTimeString().substring(0, 5);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setForm(f => ({ ...f, date: d, time: t }));
     }
   }, [selectedDateTime]);

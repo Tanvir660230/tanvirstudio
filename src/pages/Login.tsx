@@ -1,4 +1,4 @@
-/* eslint-disable no-irregular-whitespace */
+ 
 
 import { Global, css } from '@emotion/react';
 
@@ -14,17 +14,17 @@ import {
 
   signInWithEmailAndPassword, createUserWithEmailAndPassword,
 
-  signInWithRedirect, getRedirectResult, sendPasswordResetEmail, sendEmailVerification,
+  sendPasswordResetEmail, sendEmailVerification,
 
   signOut, updateProfile,
 
 } from 'firebase/auth';
 
-import { auth, db, googleProvider } from '../lib/firebase';
+import { auth, db } from '../lib/firebase';
 
 import { doc, setDoc } from 'firebase/firestore';
 
-import { GoogleOneTap, resetGoogleOneTap } from '../components/GoogleOneTap';
+import { GoogleOneTap, resetGoogleOneTap, triggerGoogleSignIn } from '../components/GoogleOneTap';
 
 
 
@@ -226,7 +226,17 @@ export function Login() {
 
       }
 
-      await signInWithEmailAndPassword(auth, email, password);
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+
+      if (!cred.user.emailVerified) {
+        // AuthContext's onAuthStateChanged would silently sign this user back
+        // out (it also enforces verification) — surface a clear reason here
+        // instead of letting the user bounce back to /login with no message.
+        try { await sendEmailVerification(cred.user); } catch { /* rate-limited, ignore */ }
+        await signOut(auth);
+        setError('Please verify your email before signing in — we just sent a fresh verification link to your inbox.');
+        return;
+      }
 
       // Don't navigate here — AuthContext's onAuthStateChanged (which also
       // enforces email verification) hasn't necessarily processed this sign-in
@@ -250,35 +260,20 @@ export function Login() {
 
 
 
-  const handleGoogle = async () => {
-
-    setLoading(true); reset();
-
-    try {
-      // Popup-based sign-in unreliably reports "closed by user" right after the
-      // account picker under a Cross-Origin-Opener-Policy header (COOP breaks
-      // Firebase's cross-origin window.closed polling) — redirect avoids that
-      // entirely. Result is picked up by the getRedirectResult effect below.
-      await signInWithRedirect(auth, googleProvider);
-    } catch (err: any) {
-      console.error("Google Auth Error:", err);
-      setError(`Google sign-in failed: ${err.message || err.code}`);
-      setLoading(false);
+  const handleGoogle = () => {
+    reset();
+    // Both signInWithPopup (COOP breaks window.closed polling) and
+    // signInWithRedirect (relies on a storage hand-off with the Firebase
+    // authDomain, which silently fails on third-party hosts like Netlify
+    // once the browser partitions cross-site storage) proved unreliable here.
+    // Instead, trigger Google Identity Services' own account-chooser popup
+    // directly — sign-in completes via the callback in GoogleOneTap.tsx
+    // (signInWithCredential), which AuthContext + App.tsx's redirect pick up.
+    const triggered = triggerGoogleSignIn();
+    if (!triggered) {
+      setError('Google sign-in is still loading — please wait a moment and try again.');
     }
-
   };
-
-
-
-  // Pick up the result of a signInWithRedirect once the browser navigates back.
-  // On success, onAuthStateChanged (AuthContext) fires and App.tsx's own
-  // redirect-away-from-/login logic takes over — nothing else to do here.
-  useEffect(() => {
-    getRedirectResult(auth).catch((err: any) => {
-      console.error("Google Redirect Auth Error:", err);
-      setError(`Google sign-in failed: ${err.message || err.code}`);
-    });
-  }, []);
 
 
 

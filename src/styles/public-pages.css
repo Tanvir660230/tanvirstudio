@@ -1,0 +1,120 @@
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PUBLIC PAGES â€” Apple-style Mobile Responsive
+   Breakpoints: 900 | 768 | 600 | 480 | 390
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+
+/* Prevent horizontal scroll globally */
+html, body { max-width: 100vw; }
+
+/* â”€â”€ PublicNav mobile â”€â”€ */
+@media (max-width: 800px) {
+  .pnav-inner { padding: 0 20px !important; gap: 12px !important; }
+  .pnav-logo-name { font-size: 14px !important; }
+  .pnav-logo-mark { width: 30px !important; height: 30px !important; }
+}
+
+/* â”€â”€ Public page section padding â”€â”€ */
+@media (max-width: 768px) {
+  /* Common containers */
+  .pub-hero   { padding: 110px 20px 72px !important; }
+  .pub-section{ padding-left: 20px !important; padding-right: 20px !important; }
+
+  /* â”€â”€ HOME â”€â”€ */
+  .home-stats-grid  { grid-template-columns: repeat(2,1fr) !important; gap: 16px !important; }
+  .home-svc-grid    { grid-template-columns: 1fr !important; }
+  .home-feat-grid   { grid-template-columns: 1fr !important; }
+  .home-test-grid   { grid-template-columns: 1fr !important; }
+  .home-cta-btns    { flex-direction: column !important; width: 100% !important; }
+  .home-cta-btns > *{ width: 100% !important; justify-content: center !important; }
+
+  /* â”€â”€ SERVICES â”€â”€ */
+  .svc-grid  { grid-template-columns: 1fr !important; gap: 14px !important; }
+  .feat-grid { grid-template-columns: 1fr !important; }
+  .svc-pkg-grid { grid-template-columns: 1fr !important; }
+  .cat-pills  { gap: 6px !important; }
+
+  /* â”€â”€ PORTFOLIO â”€â”€ */
+  .p-stats        { grid-template-columns: repeat(2,1fr) !important; gap: 16px !important; }
+  .p-artist-grid  { grid-template-columns: repeat(3,1fr) !important; gap: 16px !important; }
+  .p-label-grid   { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+  .p-ba-grid      { grid-template-columns: 1fr !important; }
+
+  /* â”€â”€ CONTACT â”€â”€ */
+  .ct-grid   { grid-template-columns: 1fr !important; }
+  .ct-trust  { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .ct-form-row { grid-template-columns: 1fr !important; }
+
+  /* â”€â”€ ABOUT â”€â”€ */
+  .about-grid  { grid-template-columns: 1fr !important; }
+  .about-stats { grid-template-columns: repeat(2,1fr) !important; }
+
+  /* â”€â”€ FAQ â”€â”€ */
+  .faq-grid { grid-template-columns: 1fr !important; }
+
+  /* Touch-friendly buttons */
+  button, a[role="button"] { min-height: 44px; }
+}
+
+@media (max-width: 600px) {
+  /* Hero text already uses clamp() â€” just ensure containers fit */
+  .p-stats       { grid-template-columns: repeat(2,1fr) !important; }
+  .p-artist-grid { grid-template-columns: repeat(3,1fr) !important; }
+  .p-label-grid  { grid-template-columns: 1fr !important; }
+  .ct-form-row   { grid-template-columns: 1fr !important; }
+  .about-stats   { grid-template-columns: repeat(2,1fr) !important; }
+
+  /* Section vertical padding tighter on very small screens */
+  section[style*="padding: '80px"] { padding-top: 52px !important; padding-bottom: 52px !important; }
+}
+
+@media (max-width: 480px) {
+  .p-stats        { grid-template-columns: repeat(2,1fr) !important; }
+  .p-artist-grid  { grid-template-columns: repeat(2,1fr) !important; }
+  .p-label-grid   { grid-template-columns: 1fr !important; }
+  .ct-trust       { grid-template-columns: 1fr !important; }
+  .about-stats    { grid-template-columns: repeat(2,1fr) !important; }
+  .pnav-inner     { padding: 0 16px !important; }
+}
+
+@media (max-width: 390px) {
+  .p-artist-grid { grid-template-columns: repeat(2,1fr) !important; }
+  .p-stats       { grid-template-columns: repeat(2,1fr) !important; }
+}
+
+/* UX Performance: Hover Utilities */
+.hover-opacity-75 { transition: opacity 0.2s ease; }
+.hover-opacity-75:hover { opacity: 0.75 !important; }
+
+.hover-opacity-100 { transition: opacity 0.2s ease; }
+.hover-opacity-100:hover { opacity: 1 !important; }
+
+.hover-opacity-88 { transition: opacity 0.2s ease; }
+.hover-opacity-88:hover { opacity: 0.88 !important; }
+
+.hover-lift-1 { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.hover-lift-1:hover { transform: translateY(-1px) !important; }
+
+.hover-lift-2 { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.hover-lift-2:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important;
+}
+html.dark .hover-lift-2:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3) !important;
+}
+
+.hover-scale { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.hover-scale:hover { transform: scale(1.03) !important; }
+
+/* Admin Dashboard Hover Utilities */
+.hover-bg-light { transition: background 0.2s ease; }
+.hover-bg-light:hover { background: var(--surface-1) !important; }
+
+.hover-bg-red { transition: background 0.2s ease; }
+.hover-bg-red:hover { background: rgba(255,59,48,0.1) !important; }
+
+.hover-bg-green { transition: background 0.2s ease; }
+.hover-bg-green:hover { background: rgba(37,211,102,0.2) !important; }
+
+.hover-bg-blue { transition: background 0.2s ease; }
+.hover-bg-blue:hover { background: rgba(0,122,255,0.16) !important; }

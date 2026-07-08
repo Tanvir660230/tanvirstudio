@@ -5,9 +5,28 @@ import { auth } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+const HIDDEN_BTN_CONTAINER_ID = 'gis-hidden-signin-button';
 
 // Module-level flag — reset via resetGoogleOneTap() after logout
 let _initialized = false;
+
+// Google's own rendered button, kept off-screen. Clicking it (via
+// triggerGoogleSignIn) opens the real account-chooser popup driven entirely
+// by Google Identity Services — no Firebase signInWithRedirect/signInWithPopup
+// involved, so there's no authDomain storage hand-off to break on a
+// third-party-hosted (non-Firebase-Hosting) domain like Netlify.
+function getOrCreateHiddenContainer(): HTMLElement {
+  let el = document.getElementById(HIDDEN_BTN_CONTAINER_ID);
+  if (!el) {
+    el = document.createElement('div');
+    el.id = HIDDEN_BTN_CONTAINER_ID;
+    Object.assign(el.style, {
+      position: 'fixed', top: '-9999px', left: '-9999px', opacity: '0', pointerEvents: 'none',
+    });
+    document.body.appendChild(el);
+  }
+  return el;
+}
 
 function loadGsiScript(onLoad: () => void) {
   const existing = document.querySelector(
@@ -66,6 +85,12 @@ export function GoogleOneTap() {
         itp_support: true,
         use_fedcm_for_prompt: true,
       });
+
+      const container = getOrCreateHiddenContainer();
+      if (!container.childElementCount) {
+        g.renderButton(container, { type: 'standard', size: 'large' });
+      }
+
       g.prompt((notification: any) => {
         if (notification.isNotDisplayed()) {
           console.info('[GoogleOneTap] not displayed:', notification.getNotDisplayedReason());
@@ -88,4 +113,19 @@ export function GoogleOneTap() {
 export function resetGoogleOneTap() {
   _initialized = false;
   try { (window as any).google?.accounts?.id?.cancel(); } catch { /* noop */ }
+}
+
+/**
+ * Programmatically opens Google's real account-chooser popup, for use by a
+ * custom-styled "Continue with Google" button. Returns false if GIS hasn't
+ * finished loading/initializing yet (e.g. clicked within the first instant
+ * of the page mounting) so the caller can show a "try again" message.
+ * Sign-in itself completes asynchronously via the callback passed to
+ * google.accounts.id.initialize() above (signInWithCredential).
+ */
+export function triggerGoogleSignIn(): boolean {
+  const btn = document.querySelector(`#${HIDDEN_BTN_CONTAINER_ID} div[role="button"]`) as HTMLElement | null;
+  if (!btn) return false;
+  btn.click();
+  return true;
 }

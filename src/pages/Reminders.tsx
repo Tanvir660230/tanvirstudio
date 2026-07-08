@@ -549,9 +549,9 @@ export function Reminders() {
 
           />
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
 
-            <div style={{ width: 180 }}>
+            <div style={{ flex: '1 1 160px', minWidth: 140 }}>
 
               <PremiumDatePicker
 

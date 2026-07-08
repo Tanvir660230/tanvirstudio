@@ -51,6 +51,9 @@ export function MobileTabBar({ navItems, tabShortLabels, userRole, onMoreClick }
 
       {/* More tab */}
       <div
+        role="button"
+        aria-label="More options"
+        tabIndex={0}
         className={`mobile-tab-item ${onSecondaryRoute ? 'active' : ''}`}
         onClick={onMoreClick}
       >

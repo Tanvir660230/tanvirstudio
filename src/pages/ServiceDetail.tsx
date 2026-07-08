@@ -247,7 +247,7 @@ export function ServiceDetail() {
     ...(service.packages.premium.featuresList ?? []),
   ]));
 
-  const PricingCard = ({ isMobile = false }) => (
+  const renderPricingCard = (isMobile = false) => (
     <div style={{ background: `linear-gradient(160deg, var(--surface-1), var(--bg-color))`, borderRadius: isMobile ? '28px 28px 0 0' : 24, border: isMobile ? 'none' : `1px solid var(--border-color)`, padding: '32px 28px', boxShadow: isMobile ? 'none' : `0 24px 48px rgba(0,0,0,0.1)`, position: 'relative', overflow: 'hidden', backdropFilter: 'blur(20px)' }}>
       
       {/* Decorative Glow */}
@@ -598,7 +598,7 @@ export function ServiceDetail() {
         {/* â”€â”€ RIGHT COLUMN (35%) - DESKTOP STICKY SIDEBAR â”€â”€ */}
         <div className="sd-desktop-sidebar" style={{ width: '35%', position: 'relative' }}>
           <div style={{ position: 'sticky', top: 120 }}>
-            <PricingCard />
+            {renderPricingCard()}
             {waLink && (
               <a href={waLink} target="_blank" rel="noreferrer"
                 style={{ marginTop: 20, width: '100%', padding: '16px', borderRadius: 16, background: 'var(--surface-1)', color: '#25d366', border: `1px solid rgba(37,211,102,0.3)`, fontSize: 15, fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, transition: 'all 0.2s', textDecoration: 'none' }}
@@ -644,7 +644,7 @@ export function ServiceDetail() {
                   <X size={18} />
                 </button>
               </div>
-              <PricingCard isMobile={true} />
+              {renderPricingCard(true)}
             </motion.div>
           </>
         )}
