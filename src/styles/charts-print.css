@@ -98,7 +98,7 @@ html.dark .main-header {
 .focus-strip::-webkit-scrollbar { display: none; }
 
 /* ── Print Styles ── */
-@page { size: A4 portrait; margin: 10mm; }
+@page { size: A4; margin: 10mm; }
 
 @media print {
   /* Hide all elements by default */
@@ -161,6 +161,15 @@ html.dark .main-header {
     overflow: visible !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+  }
+
+  /* Prevent table rows and sections from splitting awkwardly across pages */
+  #printable-invoice > div,
+  #printable-invoice > section,
+  #printable-invoice tr,
+  #printable-invoice footer {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
   .no-print {

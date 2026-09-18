@@ -390,14 +390,19 @@ export function ClientInvoiceModal({ client, tasks, onClose }: ClientInvoiceModa
         {/* Export Actions */}
         <div style={{ display: 'flex', gap: 8 }}>
           <button
+            className="no-print"
             onClick={handleDownloadPDF}
             disabled={isGenerating}
-            style={{ ...actionButton, background: 'var(--card-bg)', color: ink, opacity: isGenerating ? 0.7 : 1 }}
+            style={{ ...actionButton, background: 'rgba(255,255,255,0.16)', color: '#fff', opacity: isGenerating ? 0.7 : 1 }}
           >
-            {isGenerating ? <Spinner size={15} color={ink} /> : <Download size={16} strokeWidth={2.6} />}
+            {isGenerating ? <Spinner size={15} color="#fff" /> : <Download size={16} strokeWidth={2.6} />}
             {isGenerating ? 'Generating…' : 'PDF'}
           </button>
-          <button onClick={handlePrint} style={{ ...actionButton, background: 'rgba(255,255,255,0.16)', color: '#fff' }}>
+          <button
+            className="no-print"
+            onClick={handlePrint}
+            style={{ ...actionButton, background: 'rgba(255,255,255,0.16)', color: '#fff' }}
+          >
             <Printer size={16} strokeWidth={2.6} />
             Print
           </button>
@@ -416,7 +421,7 @@ export function ClientInvoiceModal({ client, tasks, onClose }: ClientInvoiceModa
           </button>
         </div>
         {pdfError && (
-          <div style={{ width: '100%', marginTop: 4, textAlign: 'center', fontSize: 12, color: 'var(--color-warning)', fontWeight: 600 }}>
+          <div className="no-print" style={{ width: '100%', marginTop: 4, textAlign: 'center', fontSize: 12, color: 'var(--color-warning)', fontWeight: 600 }}>
             {pdfError}
           </div>
         )}
