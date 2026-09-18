@@ -163,9 +163,7 @@ html.dark .main-header {
     print-color-adjust: exact !important;
   }
 
-  /* Prevent table rows and sections from splitting awkwardly across pages */
-  #printable-invoice > div,
-  #printable-invoice > section,
+  /* Allow sections and tables to flow naturally across pages; avoid breaking individual rows or summary blocks */
   #printable-invoice tr,
   #printable-invoice footer {
     page-break-inside: avoid !important;

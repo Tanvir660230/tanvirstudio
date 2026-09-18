@@ -581,7 +581,7 @@ export function ClientInvoiceModal({ client, tasks, onClose }: ClientInvoiceModa
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ color: muted, fontSize: 11, fontWeight: 800, textTransform: 'uppercase' }}>Amount Due</div>
+              <div style={{ color: muted, fontSize: 11, fontWeight: 800, textTransform: 'uppercase' }}>Total Outstanding</div>
               <div style={{ color: 'var(--color-danger)', fontSize: 26, fontWeight: 900 }}>{money(totalDue)}</div>
             </div>
           </section>
