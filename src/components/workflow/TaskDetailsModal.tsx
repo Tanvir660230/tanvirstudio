@@ -69,7 +69,10 @@ export function TaskDetailsModal({
   const [uploadProgress, setUploadProgress] = useState(0);
   const [fileError, setFileError] = useState('');
   const [mobileTab, setMobileTab] = useState<'overview' | 'finance' | 'activity'>('overview');
-  React.useEffect(() => { setMobileTab('overview'); }, [selectedTask?.id]);
+  React.useEffect(() => {
+    /* eslint-disable-next-line react-hooks/set-state-in-effect */
+    setMobileTab('overview');
+  }, [selectedTask?.id]);
 
   const ALLOWED_MIME_PREFIXES = ['audio/', 'image/', 'video/'];
   const ALLOWED_MIME_TYPES = ['application/pdf', 'application/zip', 'application/x-zip-compressed', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];

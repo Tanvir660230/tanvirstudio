@@ -1,19 +1,10 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Music2, User, X, Plus, Zap, Mic, Radio, Keyboard, ClipboardList, ChevronDown, Calendar as CalendarIcon, DollarSign, Users, FileText } from 'lucide-react';
+import { Music2, User, X, Plus, ClipboardList, ChevronDown, Calendar as CalendarIcon, DollarSign, Users, FileText } from 'lucide-react';
 import { Modal } from '../Modal';
 import { PremiumDatePicker } from '../PremiumDatePicker';
 import { useSettings } from '../../contexts/SettingsContext';
-import { useData } from '../../contexts/DataContext';
-import { useFirestore } from '../../hooks/useFirestore';
 import { Spinner } from '../Spinner';
-
-const TASK_TEMPLATES = [
-  { id: 'standard', label: 'Standard', icon: <Music2 size={14} />, composerCommissionPct: 15, hummingArtistCommissionPct: 10, needsHumming: false, priority: 'normal', status: 'recording' },
-  { id: 'cover', label: 'Cover Song', icon: <Mic size={14} />, composerCommissionPct: 20, hummingArtistCommissionPct: 15, needsHumming: true, priority: 'normal', status: 'recording' },
-  { id: 'jingle', label: 'Jingle', icon: <Radio size={14} />, composerCommissionPct: 10, hummingArtistCommissionPct: 8, needsHumming: true, priority: 'high', status: 'recording' },
-  { id: 'instrumental', label: 'Instrumental', icon: <Keyboard size={14} />, composerCommissionPct: 20, hummingArtistCommissionPct: 0, needsHumming: false, priority: 'normal', status: 'recording' },
-];
 
 const STAGES = [
   { v: 'recording',    l: 'Recording',    emoji: '🎙️' },

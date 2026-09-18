@@ -186,10 +186,10 @@ export function PublicFooter() {
               Premium audio & video production — crafted with intention.
             </p>
             <div className="gf-socials">
-              {whatsapp && <a href={waLink} target="_blank" rel="noreferrer" title="WhatsApp" className="gf-soc"><MessageCircle size={16} /></a>}
-              {ytLink && <a href={ytLink} target="_blank" rel="noreferrer" title="YouTube" className="gf-soc"><IconYoutube /></a>}
-              {fbLink && <a href={fbLink} target="_blank" rel="noreferrer" title="Facebook" className="gf-soc"><IconFacebook /></a>}
-              {igLink && <a href={igLink} target="_blank" rel="noreferrer" title="Instagram" className="gf-soc"><IconInstagram /></a>}
+              {whatsapp && <a href={waLink} target="_blank" rel="noreferrer" title="WhatsApp" aria-label="WhatsApp" className="gf-soc"><MessageCircle size={16} /></a>}
+              {ytLink && <a href={ytLink} target="_blank" rel="noreferrer" title="YouTube" aria-label="YouTube" className="gf-soc"><IconYoutube /></a>}
+              {fbLink && <a href={fbLink} target="_blank" rel="noreferrer" title="Facebook" aria-label="Facebook" className="gf-soc"><IconFacebook /></a>}
+              {igLink && <a href={igLink} target="_blank" rel="noreferrer" title="Instagram" aria-label="Instagram" className="gf-soc"><IconInstagram /></a>}
             </div>
           </div>
 

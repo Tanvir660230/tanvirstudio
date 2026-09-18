@@ -1,3 +1,4 @@
+import { createElement } from 'react';
 import { Search, Check as CheckIcon, Link2, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toSlug, CAT_META, resolveIconCMS } from '../cms/CMSManagers';
@@ -22,7 +23,7 @@ export function ServicePreview({ activeService, isEditing, pkgTab, copiedId, cop
   );
 
   const prevMeta = CAT_META[activeService.category as CatKey] ?? CAT_META.audio;
-  const PrevIcon = resolveIconCMS(activeService.icon || '');
+  const prevIconEl = createElement(resolveIconCMS(activeService.icon || ''), { size: 32, color: 'var(--text-primary)', strokeWidth: 1.5 });
   // Determine which package to preview. For forms, use pkgTab. For list view, preview basic or what's available.
   const previewPkgTab = isEditing ? pkgTab : 'basic';
   const activePackages = activeService.packages || { basic: { name: 'Basic', price: activeService.price || 0, desc: '', features: activeService.features || '' } };
@@ -49,7 +50,7 @@ export function ServicePreview({ activeService, isEditing, pkgTab, copiedId, cop
           {/* Header */}
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 24 }}>
             <div style={{ width: 64, height: 64, borderRadius: 18, background: 'var(--surface-1)', border: `1px solid var(--border-color)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <PrevIcon size={32} color="var(--text-primary)" strokeWidth={1.5} />
+              {prevIconEl}
             </div>
             <div style={{ paddingTop: 4 }}>
               <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6 }}>{prevMeta.label}</div>

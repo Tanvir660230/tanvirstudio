@@ -47,30 +47,6 @@ export function useDashboardData() {
 
 
 
-  const [toastMsg, setToastMsg] = useState('');
-
-  const [toastType, setToastType] = useState<'success'|'error'|'warning'|'info'>('success');
-
-  const [showToast, setShowToast] = useState(false);
-
-  const fireToast = (msg: string, type: 'success'|'error'|'warning'|'info' = 'success') => { setToastMsg(msg); setToastType(type); setShowToast(true); };
-
-
-
-  // Review modal state
-
-  const [reviewOrder, setReviewOrder] = useState<any>(null);
-
-  const [reviewRating, setReviewRating] = useState(5);
-
-  const [reviewHover, setReviewHover] = useState(0);
-
-  const [reviewText, setReviewText] = useState('');
-
-  const [reviewSubmitting, setReviewSubmitting] = useState(false);
-
-
-
   const isAdmin  = userData?.role === 'admin';
   const isWorker = userData?.role === 'composer' || userData?.role === 'humming_artist';
   const isClient = userData?.role === 'client';

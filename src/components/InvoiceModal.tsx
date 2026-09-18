@@ -156,6 +156,7 @@ export function InvoiceModal({ task, onClose }: InvoiceModalProps) {
 
 
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- syncs with Firestore, not just local state
   useEffect(() => { allocateInvoiceNo(); }, [allocateInvoiceNo]);
 
   const safeStudioName = studioName || 'Tanvir Studio';

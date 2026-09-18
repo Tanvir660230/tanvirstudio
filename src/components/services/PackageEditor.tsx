@@ -123,8 +123,8 @@ export function PackageEditor({
                 value={form.features}
                 onChange={e => {
                   let val = e.target.value;
-                  val = val.replace(/^[\s​]*[•\-*]\s+/gm, '');
-                  val = val.replace(/^[\s​]*[0-9]+\.\s+/gm, '');
+                  val = val.replace(/^[\s\u200B]*[•\-*]\s+/gm, '');
+                  val = val.replace(/^[\s\u200B]*[0-9]+\.\s+/gm, '');
                   setForm(f => ({ ...f, features: val }));
                 }}
                 rows={4}
@@ -218,8 +218,8 @@ export function PackageEditor({
                     value={form.packages[pkgTab].features}
                     onChange={e => {
                       let val = e.target.value;
-                      val = val.replace(/^[\s​]*[•\-*]\s+/gm, '');
-                      val = val.replace(/^[\s​]*[0-9]+\.\s+/gm, '');
+                      val = val.replace(/^[\s\u200B]*[•\-*]\s+/gm, '');
+                      val = val.replace(/^[\s\u200B]*[0-9]+\.\s+/gm, '');
                       setForm(f => ({ ...f, packages: { ...f.packages, [pkgTab]: { ...f.packages[pkgTab], features: val } } }));
                     }}
                     rows={5}

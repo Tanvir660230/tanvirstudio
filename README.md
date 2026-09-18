@@ -14,7 +14,7 @@ Professional audio & video production studio website — built with React 18, Ty
 
 ## Features
 
-- Public marketing site (Home, Services, Portfolio, About, Contact, Booking, Blog, FAQ, Case Studies)
+- Public marketing site (Home, Services, Portfolio, About, Contact, Booking, Blog, Calculator)
 - Protected studio dashboard (Work, Finance, Clients, Calendar, Notes, Reminders, CMS, Settings)
 - Dark / light theme with system sync
 - Fully responsive — mobile bottom nav, safe-area insets, iOS-safe inputs

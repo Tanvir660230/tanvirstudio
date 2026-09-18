@@ -30,7 +30,7 @@ import { CookieConsent } from '../components/CookieConsent';
 
 export function PublicLayout({ children }: { children: React.ReactNode }) {
 
-  const { user, userData, loading } = useAuth();
+  const { user, loading } = useAuth();
 
   const { settings } = useSettings();
 

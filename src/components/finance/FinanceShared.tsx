@@ -22,7 +22,7 @@ export function ClientDueList({ items, currency, onInvoice, onRemind, empty }: {
   items: any[]; currency: string; onInvoice: (task: any) => void;
   onRemind?: (task: any, daysOverdue: number) => void; studioName?: string; empty: string;
 }) {
-  const now = React.useMemo(() => Date.now(), []);
+  const [now] = React.useState(() => Date.now());
   if (items.length === 0) return <EmptyBox text={empty} />;
   return (
     <div className="ledger-list">
@@ -76,7 +76,7 @@ export function WorkerDueList({ registry, currency, expandedWorker, setExpandedW
   setExpandedWorker: (id: string | null) => void; onPay: (worker: any) => void; empty: string;
 }) {
   const workers = Object.values(registry);
-  const now = React.useMemo(() => Date.now(), []);
+  const [now] = React.useState(() => Date.now());
   if (workers.length === 0) return <EmptyBox text={empty} />;
   return (
     <div className="ledger-list">

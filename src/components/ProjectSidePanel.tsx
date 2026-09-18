@@ -75,12 +75,16 @@ export function ProjectSidePanel({ task, isOpen, onClose, onOpenFull, onGenerate
   }, [isOpen, task?.comments?.length]);
 
   useEffect(() => {
+    /* eslint-disable-next-line react-hooks/set-state-in-effect */
     setLocalProgress(task?.progress ?? 0);
   }, [task?.id, task?.progress]);
 
-  // Cleanup debounce timers on unmount to prevent stale Firestore writes
+  // Cleanup debounce timers on unmount to prevent stale Firestore writes.
+  // Reading .current here (not a snapshot) is intentional: this must clear
+  // whichever timeout is pending at unmount time, not whatever was pending at mount.
   useEffect(() => {
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       if (progressSaveRef.current) clearTimeout(progressSaveRef.current);
       if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
     };

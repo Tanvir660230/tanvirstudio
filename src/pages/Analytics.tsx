@@ -1,17 +1,16 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { useData } from '../contexts/DataContext';
 import { useSettings } from '../contexts/SettingsContext';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer,
   Cell, PieChart, Pie
 } from 'recharts';
 import {
-  TrendingUp, TrendingDown, DollarSign, PackageOpen, Users,
-  CheckCircle2, Clock, AlertCircle, Tag, Download, Activity,
-  Briefcase, Globe, Wallet, Target, RefreshCw, PieChart as PieChartIcon,
+  TrendingUp, TrendingDown, DollarSign, Users,
+  AlertCircle, Download, Activity,
+  Wallet, Target, PieChart as PieChartIcon,
   Mail, Banknote, Edit2, Check, X, Lightbulb
 } from 'lucide-react';
 import { atomicPayWorker } from '../utils/atomicOps';
@@ -58,7 +57,6 @@ export function Analytics() {
   const { userData } = useAuth();
   const { settings, updateSettings } = useSettings();
   const { tasks, tasksLoading, transactions, txLoading, clients, clientsLoading, users } = useData();
-  const navigate = useNavigate();
   const currency = settings.currency || '৳';
   const monthlyGoal = (settings as any).monthlyGoal || 100000;
 
@@ -163,12 +161,6 @@ export function Analytics() {
 
   const chartData = useMemo(() => monthlyRevenue.map(m => ({ ...m })), [monthlyRevenue]);
 
-  const getWorkerName = (uid: string) => {
-    if (!users || !Array.isArray(users)) return String(uid).substring(0, 8) || 'Unknown';
-    const worker = users.find((u: any) => String(u.id) === String(uid) || String(u.uid) === String(uid));
-    return worker?.name || String(uid).substring(0, 8) || 'Unknown';
-  };
-
   const kpis = useMemo(() => {
     const now = new Date();
     const thisM = now.getMonth(), thisY = now.getFullYear();
@@ -217,6 +209,11 @@ export function Analytics() {
   }, [tasks, sumTx, sumCustomTx, range, customStart, customEnd]);
 
   const workerStats = useMemo(() => {
+    const getWorkerName = (uid: string) => {
+      if (!users || !Array.isArray(users)) return String(uid).substring(0, 8) || 'Unknown';
+      const worker = users.find((u: any) => String(u.id) === String(uid) || String(u.uid) === String(uid));
+      return worker?.name || String(uid).substring(0, 8) || 'Unknown';
+    };
     const map: Record<string, { name: string; tasks: number; completed: number; totalEarned: number; totalPaid: number; totalDue: number }> = {};
     tasks.forEach(t => {
       const add = (uid: string, name: string, earned: number, paid: number) => {
@@ -340,33 +337,6 @@ export function Analytics() {
     return suggestions;
   }, [kpis, expenseBreakdown, monthlyGoal, range, currency]);
 
-  const packageStats = useMemo(() => {
-    const map: Record<string, number> = {};
-    tasks.forEach(t => { if ((t as any).packageName) map[(t as any).packageName] = (map[(t as any).packageName] || 0) + 1; });
-    return Object.entries(map).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([name, count]) => ({ name, count }));
-  }, [tasks]);
-
-  const maxPackageCount = packageStats[0]?.count || 1;
-
-  const stageData = useMemo(() => {
-    const stages: Record<string, { label: string; color: string }> = {
-      pending:     { label: 'Pending',     color: 'var(--color-warning)' },
-      new:         { label: 'Accepted',    color: 'var(--color-info)' },
-      recording:   { label: 'Recording',   color: 'var(--color-danger)' },
-      humming:     { label: 'Humming',     color: 'var(--accent-purple)' },
-      composition: { label: 'Composition', color: 'var(--accent-indigo)' },
-      arrangement: { label: 'Arrangement', color: '#30B0C7' },
-      revision:    { label: 'Revision',    color: '#FF6B00' },
-      delivered:   { label: 'Delivered',   color: 'var(--color-success)' },
-      completed:   { label: 'Completed',   color: '#8E8E93' },
-    };
-    const counts: Record<string, number> = {};
-    tasks.forEach(t => { const s = t.status || 'pending'; counts[s] = (counts[s] || 0) + 1; });
-    return Object.entries(counts).map(([key, value]) => ({
-      name: stages[key]?.label || key, value, color: stages[key]?.color || '#8E8E93',
-    }));
-  }, [tasks]);
-
   const topClients = useMemo(() => {
     const map: Record<string, { name: string; revenue: number; projects: number; due: number }> = {};
     tasks.forEach(t => {
@@ -381,7 +351,6 @@ export function Analytics() {
     });
     return Object.values(map).sort((a, b) => b.revenue - a.revenue).slice(0, 5);
   }, [tasks]);
-  const maxClientRev = topClients[0]?.revenue || 1;
 
   function exportCSV() {
     const esc = (v: string | number) => `"${String(v).replace(/"/g, '""')}"`;

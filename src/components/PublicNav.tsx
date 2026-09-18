@@ -64,8 +64,8 @@ const HamburgerIcon = ({ open }: { open: boolean }) => (
   </svg>
 );
 
-function MoreDropdown({ ink, muted, line, accent, dark }: {
-  ink: string; muted: string; line: string; accent: string; dark: boolean;
+function MoreDropdown({ line, accent }: {
+  line: string; accent: string;
 }) {
   const { t } = useLanguage();
   const location = useLocation();
@@ -218,7 +218,10 @@ export function PublicNav() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  useEffect(() => { setMenuOpen(false); setMoreOpen(false); }, [location.pathname]);
+  useEffect(() => {
+    /* eslint-disable-next-line react-hooks/set-state-in-effect */
+    setMenuOpen(false); setMoreOpen(false);
+  }, [location.pathname]);
 
   const toggleTheme = () => {
     const next = !dark;
@@ -228,11 +231,7 @@ export function PublicNav() {
     window.dispatchEvent(new Event('themechange'));
   };
 
-  const DARK_HERO_PAGES = user ? [] : ['/services'];
-  const isHome = location.pathname === '/';
   const currentPath = `${location.pathname}${location.hash || ''}`;
-  const hasBg  = !!settings?.heroBgImage || localStorage.getItem('ts_has_hero') === '1';
-  const onHero = !scrolled && ((isHome && hasBg) || DARK_HERO_PAGES.includes(location.pathname));
 
   const ink   = 'var(--text-primary)';
   const muted = 'var(--text-secondary)';
@@ -396,7 +395,7 @@ export function PublicNav() {
                   );
                 })}
                 <div onMouseEnter={() => setHoveredLink('More')} style={{ position: 'relative' }}>
-                  <MoreDropdown ink={ink} muted={muted} line={line} accent={accent} dark={dark} />
+                  <MoreDropdown line={line} accent={accent} />
                   {hoveredLink === 'More' && (
                     <motion.div
                       layoutId="pnav-pill"
