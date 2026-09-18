@@ -97,74 +97,61 @@ html.dark .main-header {
 }
 .focus-strip::-webkit-scrollbar { display: none; }
 
-/* â”€â”€ Print Styles â”€â”€ */
-@page { size: A4; margin: 0; }
+/* ── Print Styles ── */
+@page { size: A4; margin: 10mm; }
 
 @media print {
+  /* Hide everything on the page by default */
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* Show only the printable invoice and its children */
+  #printable-invoice,
+  #printable-invoice * {
+    visibility: visible !important;
+  }
+
   html, body {
     background: #ffffff !important;
     padding: 0 !important;
     margin: 0 !important;
     width: 210mm !important;
-  }
-
-  .sidebar, .main-header, .mf-page > *:not(#printable-invoice), .no-print, nav {
-    display: none !important;
-  }
-
-  .app-container, .main-content {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 210mm !important;
     height: auto !important;
     overflow: visible !important;
-    display: block !important;
-  }
-
-  #printable-invoice {
-    box-shadow: none !important;
-    border: none !important;
-    border-radius: 0 !important;
-    width: 210mm !important;
-    max-width: 210mm !important;
-    min-height: auto !important;
-    max-height: none !important;
-    padding: 15mm 15mm 0 !important;
-    position: relative !important;
-    top: 0 !important;
-    left: 0 !important;
-    overflow: visible !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
   }
 
   .modal-overlay.invoice-overlay {
-    display: block !important;
     position: absolute !important;
-    inset: 0 !important;
+    left: 0 !important;
+    top: 0 !important;
     width: 210mm !important;
-    background: #ffffff !important;
+    background: transparent !important;
     padding: 0 !important;
     overflow: visible !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
 
-  .modal-overlay.invoice-overlay #printable-invoice {
+  #printable-invoice {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
     width: 210mm !important;
     max-width: 210mm !important;
-    height: auto !important;
     margin: 0 !important;
+    padding: 10mm !important;
     box-shadow: none !important;
+    border: none !important;
     border-radius: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-  }
-
-  .modal-overlay.invoice-overlay #printable-invoice,
-  .modal-overlay.invoice-overlay #printable-invoice * {
+    background: #fffdf8 !important;
+    overflow: visible !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+  }
+
+  .no-print {
+    display: none !important;
   }
 }
 
