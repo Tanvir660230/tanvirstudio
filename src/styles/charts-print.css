@@ -98,18 +98,13 @@ html.dark .main-header {
 .focus-strip::-webkit-scrollbar { display: none; }
 
 /* ── Print Styles ── */
-@page { size: A4; margin: 10mm; }
+@page { size: A4 portrait; margin: 10mm; }
 
 @media print {
-  /* Hide everything on the page by default */
-  body * {
-    visibility: hidden !important;
-  }
-
-  /* Show only the printable invoice and its children */
-  #printable-invoice,
-  #printable-invoice * {
-    visibility: visible !important;
+  /* Hide all root application elements and non-modal body children */
+  .sidebar, .main-header, .app-container, .main-content, .mf-page, nav, .no-print,
+  body > *:not(.modal-overlay) {
+    display: none !important;
   }
 
   html, body {
@@ -122,25 +117,29 @@ html.dark .main-header {
   }
 
   .modal-overlay.invoice-overlay {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
+    display: block !important;
+    position: static !important;
     width: 210mm !important;
-    background: transparent !important;
+    height: auto !important;
+    min-height: 0 !important;
+    background: #ffffff !important;
     padding: 0 !important;
+    margin: 0 !important;
     overflow: visible !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
 
   #printable-invoice {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
+    display: block !important;
+    position: static !important;
     width: 210mm !important;
     max-width: 210mm !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
     margin: 0 !important;
-    padding: 10mm !important;
+    padding: 0 !important;
     box-shadow: none !important;
     border: none !important;
     border-radius: 0 !important;
@@ -148,10 +147,6 @@ html.dark .main-header {
     overflow: visible !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-  }
-
-  .no-print {
-    display: none !important;
   }
 }
 
